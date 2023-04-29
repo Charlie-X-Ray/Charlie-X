@@ -98,3 +98,24 @@ To let others view your website, you need to deploy it. Use the following fireba
 ```bash
 firebase deploy --only:hosting
 ```
+
+## Some Git Tips
+
+The usual flow for making changes is to **pull** updates from GitHub onto your local code.
+Then after you make changes you **add** them to be staged follwoed by **commit** to actually save your changes.
+The last step is to **push** your code back onto the GitHub repository.
+
+```bash
+git pull
+# Now make some changes to src
+git add . # . is to add all changes, you can specify specific changes too
+git commit -m "Added a new feature" # Provide a comment for your commit
+git push # Put your code back in our GitHub
+```
+
+Here are some docs to help you.
+
+**pull**: <https://www.atlassian.com/git/tutorials/syncing/git-pull> 
+**add**: <https://www.atlassian.com/git/tutorials/saving-changes> 
+**commit**: <https://www.atlassian.com/git/tutorials/saving-changes/git-commit> 
+**push**: <https://www.atlassian.com/git/tutorials/syncing/git-push> 
