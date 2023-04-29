@@ -63,7 +63,7 @@ git clone https://github.com/drustanyjt/CharlieX.git
 To enter the directory use the `cd` command like so:
 
 ```bash
-cd cxr
+cd CharlieX
 ```
 
 And to install the required packages run the following:
