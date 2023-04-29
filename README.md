@@ -126,6 +126,9 @@ git push # Put your code back in our GitHub
 Here are some docs to help you.
 
 **pull**: <https://www.atlassian.com/git/tutorials/syncing/git-pull> 
+
 **add**: <https://www.atlassian.com/git/tutorials/saving-changes> 
+
 **commit**: <https://www.atlassian.com/git/tutorials/saving-changes/git-commit> 
+
 **push**: <https://www.atlassian.com/git/tutorials/syncing/git-push> 
