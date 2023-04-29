@@ -93,7 +93,17 @@ You can make changes in your code while the local server is running, and they wi
 
 ## Deploy Live
 
-To let others view your website, you need to deploy it. Use the following firebase command to do so:
+To let others view your website, you need to deploy it.
+First make sure your project is initiatied with **hosting** enabled:
+
+```bash
+firebase init
+```
+
+And enabling the `hosting:configure files...` option
+
+
+Now use the following firebase command to make your website go live:
 
 ```bash
 firebase deploy --only:hosting
