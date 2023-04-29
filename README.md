@@ -58,7 +58,7 @@ And follow the prompts to login with your github account.
 
 Run the following command from the parent directory you want to store your project in.
 ```bash
-git clone $link
+git clone https://github.com/drustanyjt/CharlieX.git
 ```
 To enter the directory use the `cd` command like so:
 
@@ -86,4 +86,15 @@ To view the website locally, run the following:
 
 ```bash
 npm run dev 
+```
+
+You can make changes in your code while the local server is running, and they will be instantly reflected in the website.
+(This is known as Hot Reloading (or Hot Module Reloading, HMR)).
+
+## Deploy Live
+
+To let others view your website, you need to deploy it. Use the following firebase command to do so:
+
+```bash
+firebase deploy --only:hosting
 ```
