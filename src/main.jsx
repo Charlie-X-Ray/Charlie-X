@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './commons/App.jsx'
+import DefaultLayout from './commons/DefaultLayout.jsx'
 import Root from './pages/Root.jsx'
 import Gallery from './pages/Gallery.jsx'
+import App from './commons/App.jsx'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <App />,
+    element: <DefaultLayout />,
     children:[
       {
         index: true,
@@ -33,6 +34,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <App />
   </React.StrictMode>,
 )

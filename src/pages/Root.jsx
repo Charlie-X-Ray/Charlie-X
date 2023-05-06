@@ -10,11 +10,11 @@ function Root() {
           <Image />
         </div>
       </div>
-      <div className="flex flex-col h-full w-full p-4 text-white lg:w-1/2 justify-center">
-        <h1 className="text-4xl mb-1">A Chest Radiograph Library</h1>
+      <div className="flex flex-col h-full w-full p-4 text-white lg:w-1/2 justify-center" data-testid="rootWelcomeDisplay">
+        <h1 className="text-4xl mb-1">A Chest Radiography Library</h1>
         <h1 className="text-2xl mb-6">View X-Ray images grouped in over 10 categories</h1>
         <Link to={`/gallery`}>
-          <button className="bg-[#499D89] rounded-md px-5 py-2 text-xl text-white font-light shadow-xl hover:bg-[#1f6446] active:bg-[#143f2c]">
+          <button id="" className="bg-[#499D89] rounded-md px-5 py-2 text-xl text-white font-light shadow-xl hover:bg-[#1f6446] active:bg-[#143f2c]">
             Start Learning!
           </button>
         </Link>
