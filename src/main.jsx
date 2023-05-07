@@ -1,39 +1,28 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import DefaultLayout from './commons/DefaultLayout.jsx'
-import Root from './pages/Root.jsx'
-import Gallery from './pages/Gallery.jsx'
-import App from './commons/App.jsx'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-const router = createBrowserRouter([
-  {
-    path: "/home",
-    element: <Root />,
-  },
-  {
-    path: "/",
-    element: <DefaultLayout />,
-    children:[
-      {
-        index: true,
-        element:
-        <div className='flex flex-col h-full justify-center items-center bg-inherit font-mono'>
-          <h1 className="text-8xl">Hi</h1>
-          <p className="text-2xl">Welcome to the overview</p>
-        </div>
-      },
-      {
-        path:"gallery",
-        element: <Gallery />,
-      },
-    ]
-  }
-])
+import Root from "./pages/Root.jsx";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+import "./index.css";
+
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route
+} from "react-router-dom";
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route
+    path="/"
+    element={<Root />}
+  >
+
+  </Route>
+));
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);

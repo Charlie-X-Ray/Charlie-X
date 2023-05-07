@@ -9,12 +9,12 @@ describe("Testing the App component", async () => {
     render(<App />)
   })
 
-  test("Should load to Overview", () => {
-    expect(screen.getByText(/overview/)).toBeDefined()
+  test("Should load welcome text", () => {
+    expect(screen.getByText(/Revolutionse how You Learn Radiology/)).toBeDefined()
   })
 
-  test("Should render NavBar", () => {
-    expect(screen.getByText(/Gallery/i)).toBeDefined()
+  test("Should load welcome subtitle", () => {
+    expect(screen.getByTestId('root-subtitle')).toBeDefined()
   })
 
   
