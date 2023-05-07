@@ -46,7 +46,7 @@ function NavBar() {
         buttons.map(({ msg, icon = <></> }, i) => 
           <div className={`bg-[#BAE5E3] grow flex flex-row justify-center items-center text-center rounded-b-xl text-2xl lg:text-xl lg:gap-2 py-1`} key={i}>
             {icon}
-            <h2 className="invisible w-0 h-0 lg:visible lg:w-auto lg:h-auto">
+            <h2 className="text-[0px] lg:visible lg:w-auto lg:h-auto lg:text-base"> 
               {msg}
             </h2>
           </div>)
@@ -58,7 +58,7 @@ function NavBar() {
 function Root() {
 
   return (
-    <div className="flex flex-col w-screen h-screen bg-gradient-to-tr from-white to-[#AFDAF2]">
+    <div className="flex flex-col w-screen h-screen bg-gradient-to-tr from-white to-[#AFDAF2] bg-green-500 ">
       <div className="flex flex-col w-full shrink-0 h-2/6 lg:h-2/3">
         <div className="h-0 lg:h-1/6" />
         <div className="flex flex-col grow opacity-90 bg-white" style={{
@@ -85,7 +85,7 @@ function Root() {
       <div className="flex flex-col h-full w-full ">
         <NavBar />
 
-        <div className="flex flex-row h-full w-screen">
+        <div className="flex flex-row grow w-screen">
           <div className="h-full w-0 lg:w-1/2 lg:grow">
           </div>
           <div className="h-full w-1/2 pl-8 grow">
