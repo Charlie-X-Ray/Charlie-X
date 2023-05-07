@@ -90,9 +90,9 @@ function Root() {
           </div>
           <div className="h-full w-1/2 pl-8 grow">
             <h1 className="text-3xl lg:text-6xl font-semibold mb-4 mt-6">
-              Revolutionize how You Learn Radiology
+              Revolutionise how You Learn Radiology
             </h1>
-            <h2 className="text-md lg:text-xl font-medium">
+            <h2 className="text-md lg:text-xl font-medium" data-testid="root-subtitle">
               <b className="text-orange-500">Never</b> spend hours pouring over videos or webistes with conflicting information again!
             </h2>
           </div>
