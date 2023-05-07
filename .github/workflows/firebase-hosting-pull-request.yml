@@ -20,4 +20,6 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHARLIE_X_RAY }}'
+          expires: 7d
           projectId: charlie-x-ray
+          channelId: preprod # to keep all previews on the same live channel

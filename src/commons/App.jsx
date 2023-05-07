@@ -1,11 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import DefaultLayout from './commons/DefaultLayout.jsx'
-import Root from './pages/Root.jsx'
-import Gallery from './pages/Gallery.jsx'
-import App from './commons/App.jsx'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import './index.css'
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import Root from "../pages/Root"
+import DefaultLayout from "./DefaultLayout"
+import Gallery from "../pages/Gallery"
 
 const router = createBrowserRouter([
   {
@@ -32,8 +28,8 @@ const router = createBrowserRouter([
   }
 ])
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+export default function App() {
+  return (
+    <RouterProvider router={router}></RouterProvider>
+  )
+}
