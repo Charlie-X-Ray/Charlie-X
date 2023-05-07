@@ -13,6 +13,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      - run: npm ci # stands for npm clean-install for automated deployments
+      - run: npm test # same as npm run test
       - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
