@@ -38,7 +38,7 @@ function NavBar() {
     <div className="flex flex-row w-screen gap-2">
       {
         buttons.map(({ msg, icon = <></>, linkto }, i) =>
-          <Link className="grow flex" to={linkto}>
+          <Link className="grow flex" to={linkto} key={i}>
             <button className={`bg-[#BAE5E3] grow flex flex-row justify-center items-center text-center rounded-b-xl text-2xl lg:text-xl lg:gap-2 py-1 hover:bg-[#88a8a7]`} key={i}>
               {icon}
               <h2 className="text-[0px] lg:visible lg:w-auto lg:h-auto lg:text-base">
