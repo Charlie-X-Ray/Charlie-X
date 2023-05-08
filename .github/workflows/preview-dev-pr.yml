@@ -11,7 +11,7 @@ on:
 
 jobs:
   build_and_preview:
-    name: Build and preview
+    name: Build and preview on dev
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
