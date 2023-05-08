@@ -12,12 +12,13 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import ErrorPage from "./commons/ErrorPage.jsx";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route
     path="/"
     element={<Root />}
-    errorElement={<div className="flex h-screen justify-center items-center"><Link to={`/`}><button className="rd-sm p-1 bg-green-500 hover:bg-green-700">Go home</button></Link></div>}
+    errorElement={<ErrorPage />}
   >
   </Route>
 ));
