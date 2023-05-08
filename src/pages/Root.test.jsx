@@ -4,15 +4,15 @@ import Root from "./Root";
 import { BrowserRouter } from "react-router-dom";
 
 describe("Root test", () => {
-  test("Should show title", () => {
+  beforeEach(() => {
+    render(<BrowserRouter><Root /></BrowserRouter>)
+  })
 
-    render(
-      <BrowserRouter>
-        <Root />
-      </BrowserRouter>
-    );
+  test("Should load welcome text", () => {
+    expect(screen.getByText(/Revolutionise how You Learn Radiology/)).toBeDefined()
+  })
 
-    expect(screen.getByText(/Start Learning!/)).toBeDefined();
-    expect(screen.getByText(/A Chest Radiography Library/)).toBeDefined();
+  test("Should load welcome subtitle", () => {
+    expect(screen.getByTestId('root-subtitle')).toBeDefined()
   })
 })
