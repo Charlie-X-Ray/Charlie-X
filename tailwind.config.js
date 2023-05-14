@@ -10,7 +10,9 @@ export default {
     extend: {},
     fontFamily: {
       "iceland": ["Iceland", ...defaultTheme.fontFamily.sans],
-      "cabin": ["Cabin", ...defaultTheme.fontFamily.sans]
+      "cabin": ["Cabin", ...defaultTheme.fontFamily.sans],
+      "cutive": ["Cutive", ...defaultTheme.fontFamily.serif],
+      "crimsontext": ["Crimson Text", ...defaultTheme.fontFamily.serif],
     }
   },
   plugins: [],

@@ -1,9 +1,8 @@
 import Image from "../commons/Image"
 import { Link } from "react-router-dom"
+import SubpageLayout from "../commons/SubpageLayout"
 
 const GalleryHero = ({ image, desc, ...props }) => {
-
-
 
   return (
     // Why wont this pass key with props drilling?
@@ -23,15 +22,17 @@ const GalleryHero = ({ image, desc, ...props }) => {
   )
 }
 
-const Gallery = () => {
+const Browse = () => {
 
   const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
   return (
-    <div className="overflow-auto grid grid-cols-1 bg-inherit sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-items-center items-center">
-      {testArray.map((i, _) => <GalleryHero image={<Image />} desc={`Category ${i}`} key={i} />)}
-    </div>
+    <SubpageLayout heading="Browse">
+      <div className="overflow-auto grid grid-cols-1 bg-blue-200 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-items-center items-center">
+        {testArray.map((i, _) => <GalleryHero image={<Image />} desc={`Category ${i}`} key={i} />)}
+      </div>
+    </SubpageLayout>
   )
 }
 
-export default Gallery;
+export default Browse;

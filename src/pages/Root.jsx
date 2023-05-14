@@ -57,7 +57,7 @@ function Root() {
   return (
     <div className="flex flex-col w-screen h-screen bg-gradient-to-tr from-white to-[#AFDAF2] bg-green-500 ">
       <div className="flex flex-col w-full shrink-0 h-2/6 lg:h-2/3">
-        <div className="h-0 lg:h-1/6" />
+        <div className="h-0 lg:h-16" />
         <div className="flex flex-col grow opacity-90 bg-white" style={{
           backgroundImage: `url("/background1.svg")`
         }}>
@@ -100,4 +100,5 @@ function Root() {
   )
 }
 
+export { NavBar };
 export default Root;
