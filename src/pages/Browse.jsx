@@ -7,7 +7,7 @@ const GalleryHero = ({ image, desc, ...props }) => {
   return (
     // Why wont this pass key with props drilling?
     <div className="my-4 h-96 w-11/12 flex flex-col items-center font-mono font-semibold border-2 text-white" {...props}>
-      <div className="flex h-1/4 mb-2 items-center text-lg md:text-xl lg:text-2xl whitespace-nowrap">
+      <div className="flex h-1/4 mb-2 items-center shrink-0 text-lg md:text-xl lg:text-2xl whitespace-nowrap">
         <Link to={`/`}>
           {desc}
         </Link>
