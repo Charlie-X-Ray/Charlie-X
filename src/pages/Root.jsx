@@ -3,6 +3,7 @@ import Image from "../commons/Image";
 import { FaPen, FaRocketchat } from "react-icons/fa"
 import { RiFileUserLine, RiStethoscopeFill } from"react-icons/ri"
 import { TbInfoCircleFilled, TbReportSearch } from "react-icons/tb"
+import { useState } from "react";
 
 function NavBar() {
 
@@ -52,12 +53,16 @@ function NavBar() {
   )
 }
 
-function ExploreBar() {
+function ExploreBar( { value, onChange }) {
 
   return (
     <div className="flex w-full text-md lg:text-2xl max-w-screen-md rounded-full bg-[#D2FCF9]/50 pl-6 py-4 items-center hover:bg-[#D2FCF9]/80">
       <FaPen />
-      <input className="text-black bg-transparent ml-4 grow mr-5 focus:bg-none focus:outline-none focus:bg-opacity-100 placeholder:text-slate-700" placeholder="Explore">
+      <input
+        className="text-black bg-transparent ml-4 grow mr-5 focus:bg-none focus:outline-none focus:bg-opacity-100 placeholder:text-slate-400"
+        placeholder="Explore"
+        value = { value }
+        onChange = { onChange }>
       </input>
     </div>
   )
