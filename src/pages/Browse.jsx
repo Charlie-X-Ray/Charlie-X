@@ -1,7 +1,6 @@
 import Image from "../commons/Image"
 import { Link } from "react-router-dom"
-import SubpageLayout from "../commons/SubpageLayout"
-import { ExploreBar } from "./Root"
+import SubpageLayout, { SearchBar } from "../commons/SubpageLayout"
 import { useState } from "react"
 
 const GalleryHero = ({ image, desc, ...props }) => {
@@ -36,48 +35,19 @@ function Gallery({ heroProps }) {
   )
 }
 
-const SearchBar = ( { value, setValue }) => {
-
-  const letters = [
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-    'U', 'V', 'W', 'X', 'Y', 'Z',
-  ]
-
-  return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
-
-      <div className="flex gap-3">
-        {letters.map((l, i) => {
-          return (
-            <button key={i} onClick={() => {
-              setValue(l);
-            }}>{l}</button>
-          )
-        })}
-      </div>
-      <input
-        className="max-w-lg w-3/4 bg-slate-600 pl-2 text-white"
-        placeholder="Search"
-        value={value}
-        onChange={(e) => setValue(e.target.value)} />
-
-    </div>
-  )
-}
 
 const Browse = () => {
 
-  const [ explore, setExplore ] = useState("");
+  const [ searchStr, setSearchStr ] = useState(new RegExp("", "g"));
 
-  const testArray = ["Atelectasis", "Alveolar Nodule", "Asperigillosis", "Disease", "Diseased", "Sickly", "Super duper sick"]
+  const testArray = ["Atelectasis", "Alveolar Nodule", "Asperigillosis", "Disease", "Diseased", "Sickly", "Super Duper Aick"]
 
   return (
     <SubpageLayout heading="Browse">
       <div className="flex w-full justify-center p-2 mt-4">
-        <SearchBar value={ explore } setValue={ setExplore } />
+        <SearchBar state={ searchStr } setState={ setSearchStr} />
       </div>
-      <Gallery heroProps={testArray.filter(x => x.toString().includes(explore)).map(x => {
+      <Gallery heroProps={testArray.filter(x => searchStr.test(x.toString())).map(x => {
         return {
           category: x,
           thumbnail: null,

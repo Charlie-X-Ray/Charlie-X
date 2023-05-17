@@ -53,4 +53,40 @@ function SubpageLayout({ children=<DefaultChild />, heading="Default Subpage" })
   )
 }
 
+const SearchBar = ( { state, setState }) => {
+
+  const letters = [
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+    'U', 'V', 'W', 'X', 'Y', 'Z',
+  ]
+
+  return (
+    <div className="flex flex-col items-center justify-center w-full h-full">
+
+      <div className="flex gap-3">
+        {letters.map((l, i) => {
+          return (
+            <button className='focus:font-bold' key={i} onClick={() => {
+              const re = new RegExp(`^${l}`, "i")
+              setState(re);
+            }}>{l}</button>
+          )
+        })}
+      </div>
+      <input
+        className="max-w-lg w-3/4 bg-slate-600 pl-2 text-white"
+        placeholder="Search"
+        onChange={ e => {
+            const filterString = e.target.value
+            const filterReg = new RegExp(filterString)
+            console.log(filterReg)
+            setState(filterReg)
+          }} />
+
+    </div>
+  )
+}
+
+export { SearchBar };
 export default SubpageLayout;
