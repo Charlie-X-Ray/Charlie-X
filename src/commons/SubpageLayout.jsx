@@ -14,7 +14,7 @@ function DefaultChild() {
 function DefaultSideBar() {
 
   return (
-    <div className="shrink-0 grow-0 flex flex-col overflow-hidden flex-nowrap bg-[#BAE5E3] gap-3 items-start relative max-w-[24px] hover:max-w-full">
+    <div className="shrink-0 grow-0 flex flex-col overflow-hidden flex-nowrap bg-[#BAE5E3] gap-3 items-start fixed max-w-[24px] hover:max-w-full h-full z-1">
       <section className="ml-1 mt-2" ><HiOutlineDocumentText /></section>
       <section className="ml-1 mt-[-5px]" ><BsArrowLeftShort /></section>
       <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs" to="/">Home</Link>
@@ -36,8 +36,10 @@ function SubpageLayout({ children=<DefaultChild />, heading="Default Subpage" })
 
       </div>
       <div className="flex grow flex-row overflow-hidden content-stretch">
-        <DefaultSideBar />
-        <div className="flex flex-col grow h-full max-w-full overflow-y-auto">
+        <div className='w-[24px]'>
+
+        </div>
+        <div className="flex flex-col grow h-full max-w-full overflow-y-scroll">
           <div className="flex shrink-0 grow-0 h-[174px] bg-contain opacity-60 w-full items-center justify-center" style={{
             backgroundImage: `url("/chestxray.jpg")`
           }}>
@@ -47,6 +49,7 @@ function SubpageLayout({ children=<DefaultChild />, heading="Default Subpage" })
             { children }
           </div>
         </div>
+        <DefaultSideBar />
       </div>
 
     </div>
@@ -82,7 +85,9 @@ const SearchBar = ( { state, setState }) => {
             const filterReg = new RegExp(filterString)
             console.log(filterReg)
             setState(filterReg)
-          }} />
+          }}
+        onClick={ e => { setState(new RegExp(e.target.value))}}
+          />
 
     </div>
   )

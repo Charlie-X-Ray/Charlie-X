@@ -40,14 +40,22 @@ const Browse = () => {
 
   const [ searchStr, setSearchStr ] = useState(new RegExp("", "g"));
 
-  const testArray = ["Atelectasis", "Alveolar Nodule", "Asperigillosis", "Disease", "Diseased", "Sickly", "Super Duper Aick"]
+  let categories = [] 
+  const testCategories = ["Atelectasis", "Alveolar Nodule", "Asperigillosis",
+    "Disease", "Diseased", "Sickly", "Super Duper Aick",
+    "Big Lungs", "Chalky Lungs", "Elephant", "Foxtroy", "Golf",
+    "Hotel", "Indigo", "Juliet", "Kilo", "Lima"
+  ]
+
+
+  categories = testCategories
 
   return (
     <SubpageLayout heading="Browse">
       <div className="flex w-full justify-center p-2 mt-4">
         <SearchBar state={ searchStr } setState={ setSearchStr} />
       </div>
-      <Gallery heroProps={testArray.filter(x => searchStr.test(x.toString())).map(x => {
+      <Gallery heroProps={categories.filter(x => searchStr.test(x.toString())).map(x => {
         return {
           category: x,
           thumbnail: null,
