@@ -1,6 +1,7 @@
 import { HiOutlineDocumentText } from 'react-icons/hi'
 import {BsArrowLeftShort} from 'react-icons/bs'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 function DefaultChild() {
 
@@ -32,9 +33,7 @@ function SubpageLayout({ children=<DefaultChild />, heading="Default Subpage" })
 
   return (
     <div className="flex flex-col max-w-screen h-screen bg-gradient-to-tr from-white to-[#AFDAF2]">
-      <div className="shrink-0 grow-0 h-0 lg:h-[64px]">
-
-      </div>
+      <div className="shrink-0 grow-0 h-0 lg:h-[64px]" />
       <div className="flex grow flex-row overflow-hidden content-stretch">
         <div className='w-[24px]'>
 
@@ -56,6 +55,22 @@ function SubpageLayout({ children=<DefaultChild />, heading="Default Subpage" })
   )
 }
 
+const SearchBarButton = ({ children, onClick = () => null, onBlur }) => {
+  
+  const [bold, setBold] = useState(false)
+
+  return (
+    <button className={bold ? "font-bold" : "font-normal"} onClick={e => {
+      onClick();
+      setBold(!bold);
+    }}
+      onBlur={() => {onBlur(); setBold(false);} }
+    >
+      {children}
+    </button>
+  )
+}
+
 const SearchBar = ( { state, setState }) => {
 
   const letters = [
@@ -70,10 +85,19 @@ const SearchBar = ( { state, setState }) => {
       <div className="flex gap-3">
         {letters.map((l, i) => {
           return (
-            <button className='focus:font-bold' key={i} onClick={() => {
-              const re = new RegExp(`^${l}`, "i")
+            <SearchBarButton key={i} onClick={() => {
+              const re = new RegExp(`^${l}`, "i");
               setState(re);
-            }}>{l}</button>
+            }} onBlur={() => {
+              // Need to setState without rendering to dom yet.
+              setState(new RegExp())
+            }}>
+              {l}
+            </SearchBarButton>
+            // <button className='focus:font-bold' key={i} onClick={() => {
+            //   const re = new RegExp(`^${l}`, "i")
+            //   setState(re);
+            // }}>{l}</button>
           )
         })}
       </div>
