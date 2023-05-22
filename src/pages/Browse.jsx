@@ -62,7 +62,6 @@ const Browse = () => {
     <SubpageLayout heading="Browse">
       <div className="flex w-full justify-center p-2 mt-4">
         <SearchBar state={ searchStr } setState={ setSearchStr} />
-        <div>{ testImg }</div>
       </div>
       <Gallery heroProps={categories.filter(x => searchStr.test(x.toString())).map(x => {
         return {
