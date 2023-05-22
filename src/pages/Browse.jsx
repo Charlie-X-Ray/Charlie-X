@@ -2,6 +2,8 @@ import Image from "../commons/Image"
 import { Link } from "react-router-dom"
 import SubpageLayout, { SearchBar } from "../commons/SubpageLayout"
 import { useState } from "react"
+import { getDownloadURL, ref } from "firebase/storage"
+import { fbstorage } from "../commons/Firebase"
 
 const GalleryHero = ({ image, desc, ...props }) => {
 
@@ -38,7 +40,13 @@ function Gallery({ heroProps }) {
 
 const Browse = () => {
 
-  const [ searchStr, setSearchStr ] = useState(new RegExp("", "g"));
+  const [ searchStr, setSearchStr ] = useState(new RegExp("", "g"))
+  const [ imageDatas, setImageData ] = useState([])
+  const [ testImg, setTestImg ] = useState("")
+
+  const testImgRef = ref(fbstorage, 'xrays/chestxray.jpg')
+  getDownloadURL(testImgRef).then(setTestImg)
+  console.log(testImg)
 
   let categories = [] 
   const testCategories = ["Atelectasis", "Alveolar Nodule", "Asperigillosis",
@@ -54,11 +62,12 @@ const Browse = () => {
     <SubpageLayout heading="Browse">
       <div className="flex w-full justify-center p-2 mt-4">
         <SearchBar state={ searchStr } setState={ setSearchStr} />
+        <div>{ testImg }</div>
       </div>
       <Gallery heroProps={categories.filter(x => searchStr.test(x.toString())).map(x => {
         return {
           category: x,
-          thumbnail: null,
+          thumbnail: <img src={ testImg } />,
         }
       })} />
     </SubpageLayout>
