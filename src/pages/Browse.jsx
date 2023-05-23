@@ -2,7 +2,7 @@ import Image from "../commons/Image"
 import { Link } from "react-router-dom"
 import SubpageLayout, { SearchBar } from "../commons/SubpageLayout"
 import { useState } from "react"
-import { getDownloadURL, ref } from "firebase/storage"
+import { getDownloadURL, ref, list } from "firebase/storage"
 import { fbstorage } from "../commons/Firebase"
 
 const GalleryHero = ({ image, desc, ...props }) => {
@@ -31,44 +31,64 @@ const GalleryHero = ({ image, desc, ...props }) => {
 function Gallery({ heroProps }) {
 
   return (
-    <div id="galleryComponent" className="overflow-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-items-center items-center">
+    <div id="galleryComponent" className="overflow-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-items-center items-center mx-4">
       {heroProps.map((heroProp, i) => <GalleryHero image={heroProp?.thumbnail?? <Image />} desc={`${heroProp.category}`} key={i} />)}
     </div>
   )
+}
+
+// Returns an array of X Rays' metadata
+const getXRays = async ( fbstorage ) => {
+  
+  let xRays = []
+
+  const dirRef = ref(fbstorage, 'xrays')
+  // Read api here https://firebase.google.com/docs/reference/js/storage.md#list
+  const xRaysRaw = await list(dirRef, { maxResults:10, }).then( xs => xs.items ).then(xs => xs.filter( x => !x.name.includes("chestxray")))
+  xRays = xRaysRaw.map(async xRayRef => {
+    // Interface can be found https://firebase.google.com/docs/reference/js/storage.storagereference
+    return {
+      disease:xRayRef.name.replace(".png",""),
+      srcPromise: await getDownloadURL(xRayRef),
+    }
+  })
+  xRays = await Promise.all(xRays)
+
+
+  return xRays;
 }
 
 
 const Browse = () => {
 
   const [ searchStr, setSearchStr ] = useState(new RegExp("", "g"))
-  const [ imageDatas, setImageData ] = useState([])
-  const [ testImg, setTestImg ] = useState("")
+  const [ imageDatas, setImageData ] = useState([{disease:"abc", srcPromise: null}])
 
-  const testImgRef = ref(fbstorage, 'xrays/chestxray.jpg')
-  getDownloadURL(testImgRef).then(setTestImg)
-  console.log(testImg)
+  getXRays(fbstorage).then(setImageData)
 
-  let categories = [] 
-  const testCategories = ["Atelectasis", "Alveolar Nodule", "Asperigillosis",
-    "Disease", "Diseased", "Sickly", "Super Duper Aick",
-    "Big Lungs", "Chalky Lungs", "Elephant", "Foxtroy", "Golf",
-    "Hotel", "Indigo", "Juliet", "Kilo", "Lima"
-  ]
-
-
-  categories = testCategories
+  // const testCategories = ["Atelectasis", "Alveolar Nodule", "Asperigillosis",
+  //   "Disease", "Diseased", "Sickly", "Super Duper Aick",
+  //   "Big Lungs", "Chalky Lungs", "Elephant", "Foxtroy", "Golf",
+  //   "Hotel", "Indigo", "Juliet", "Kilo", "Lima"
+  // ]
 
   return (
     <SubpageLayout heading="Browse">
       <div className="flex w-full justify-center p-2 mt-4">
         <SearchBar state={ searchStr } setState={ setSearchStr} />
       </div>
-      <Gallery heroProps={categories.filter(x => searchStr.test(x.toString())).map(x => {
+      <Gallery heroProps={imageDatas.filter(x => searchStr.test(x.disease.toString())).map(x => {
+        return {
+          category: x.disease,
+          thumbnail: <img src={ x.srcPromise } />,
+        }
+      })} />
+      {/* <Gallery heroProps={categories.filter(x => searchStr.test(x.toString())).map(x => {
         return {
           category: x,
           thumbnail: <img src={ testImg } />,
         }
-      })} />
+      })} /> */}
     </SubpageLayout>
   )
 }
