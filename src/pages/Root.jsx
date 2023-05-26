@@ -74,8 +74,8 @@ function Root() {
     <div className="flex flex-col w-screen h-screen bg-gradient-to-tr from-white to-[#AFDAF2] bg-green-500 ">
       <div className="flex flex-col w-full shrink-0 h-2/6 lg:h-2/3">
         <div className="h-0 lg:h-16" />
-        <div className="flex flex-col grow opacity-90 bg-white" style={{
-          backgroundImage: `url("/background1.svg")`
+        <div className="flex flex-col grow bg-opacity-10 bg-cover bg-no-repeat" style={{
+          backgroundImage: `url("/bg_combined.png")`
         }}>
           <div className="font-iceland h-2/6 lg:h-2/6 text-center">
             <h1 className="font-bold text-2xl my-1 lg:text-6xl lg:my-3">Charlie X</h1>
