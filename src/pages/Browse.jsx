@@ -54,6 +54,11 @@ const getXRays = async ( fbstorage ) => {
   })
   xRays = await Promise.all(xRays)
 
+  if (xRays.length < 21) {
+    xRays = [1,2,3,4,5,6,7].flatMap( _ => xRays)
+    xRays = xRays.slice(0, 21)
+  }
+
 
   return xRays;
 }
@@ -62,7 +67,7 @@ const getXRays = async ( fbstorage ) => {
 const Browse = () => {
 
   const [ searchStr, setSearchStr ] = useState(new RegExp("", "g"))
-  const [ imageDatas, setImageData ] = useState([{disease:"abc", srcPromise: null}])
+  const [ imageDatas, setImageData ] = useState([])
 
   getXRays(fbstorage).then(setImageData)
 

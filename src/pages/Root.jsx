@@ -31,7 +31,6 @@ function NavBar() {
     {
       msg: "Connect",
       icon: <FaRocketchat />,
-      linkto: "/connect",
     },
   ]
 
@@ -60,7 +59,7 @@ function ExploreBar( { value, onChange }) {
       <FaPen />
       <input
         className="text-black bg-transparent ml-4 grow mr-5 focus:bg-none focus:outline-none focus:bg-opacity-100 placeholder:text-slate-400"
-        placeholder="Explore"
+        placeholder="Explore (Nothing to explore for now)"
         value = { value }
         onChange = { onChange }>
       </input>
