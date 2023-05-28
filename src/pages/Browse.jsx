@@ -1,5 +1,5 @@
 import Image from "../commons/Image"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import SubpageLayout, { SearchBar } from "../commons/SubpageLayout"
 import { useState } from "react"
 import { getDownloadURL, ref, list } from "firebase/storage"
@@ -13,9 +13,9 @@ const GalleryHero = ({ image, src, desc, id, ...props }) => {
 
   return (
     <div className="my-4 w-11/12 flex flex-col items-center font-medium border-0
-    bg-[#BAE5E3] text-black rounded-t-2xl" {...props}>
-      <div className="w-full shrink-0 text-sm whitespace-nowrap font-cutive">
-        <Link className="mt-1 pl-3" to={`focus`} state = {state}>
+    bg-[#BAE5E3] hover:bg-blue-500 hover:text-white text-black rounded-t-2xl" {...props}>
+      <div className="w-full shrink-0 pt-1 text-sm md:text-md whitespace-nowrap font-cutive">
+        <Link className="pt-2 pl-3" to={`focus`} state = {state}>
           {desc}
         </Link>
       </div>
@@ -95,13 +95,14 @@ const BrowseFocus = () => {
 
   const location = useLocation()
   const state = location.state
+  const navigate = useNavigate()
 
   return (
     <div className="flex h-full w-full">
       <img className="p-6" src={state.src} />
 
-      <div className="flex-auto mx-6" id="xray-annotaions">
-        <h1 className="mt-5 text-center text-4xl font-semibold font-serif">
+      <div className="flex-auto flex flex-col text-justify items-center mx-6" id="xray-annotaions">
+        <h1 className="mt-5 text-center text-xl lg:text-4xl font-semibold font-serif">
           {state.desc}
         </h1>
         <p>
@@ -115,28 +116,6 @@ const BrowseFocus = () => {
 
         <br />
 
-        <p>
-          The consequences of this generic lung disease are far-reaching,
-          affecting not only the physical but also the psychological and emotional aspects of an individual's existence.
-          The incessant coughing fits, the stifling sensation of breathlessness, and the relentless fatigue weigh heavily on the afflicted,
-          eroding their strength and endurance, while robbing them of the simple joys and freedoms that breathing effortlessly once afforded.
-          Each inhalation becomes a struggle, as the lungs, now constricted and burdened, gasp for the life-giving oxygen that becomes increasingly elusive.
-          The most basic of activities, such as climbing a flight of stairs or engaging in a light conversation, become monumental challenges,
-          leaving the sufferer profoundly debilitated and confined within the cruel confines of their own diminishing lung capacity.
-        </p>
-        
-        <br />
-        <p>
-          Moreover, a generic lung disease is not content with solely tormenting the respiratory system;
-          its malevolent influence extends to the rest of the body, instigating a cascade of systemic repercussions that further compound the suffering.
-          The compromised oxygenation leads to an insidious domino effect, triggering an array of secondary complications,
-          ranging from cardiovascular strain and diminished cognitive function to weakened immune responses and heightened susceptibility to infections.
-          The once vibrant and synergistic interplay between organs and bodily systems is thrown into disarray,
-          as the pulmonary devastation reverberates throughout the entire organism, eroding vitality, resilience, and overall health.
-        </p>
-
-
-        <br />
         <p>
           Beyond the immediate and tangible implications,
           this generic lung disease casts a shadow of uncertainty and fear over the lives of those affected and their loved ones.
@@ -156,6 +135,10 @@ const BrowseFocus = () => {
           and compassionate care to alleviate the burden it imposes on countless lives and strive towards a future where the devastating consequences of lung diseases are minimized,
           and every breath is a precious gift of life.
         </p>
+
+        <button onClick={() => navigate(-1)} className="bg-blue-400 rounded-lg px-2 mt-5 text-xl hover:bg-blue-500 font-cabin hover:text-white">
+          Back to Browse
+        </button>
 
       </div>
 
