@@ -14,5 +14,4 @@ function About() {
     </SubpageLayout>
   )
 }
-
 export default About;
