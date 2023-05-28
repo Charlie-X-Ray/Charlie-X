@@ -18,12 +18,12 @@ function DefaultSideBar() {
     <div className="shrink-0 grow-0 flex flex-col overflow-hidden flex-nowrap bg-[#BAE5E3] gap-3 items-start fixed max-w-[24px] hover:max-w-full h-full z-1">
       <section className="ml-1 mt-2" ><HiOutlineDocumentText /></section>
       <section className="ml-1 mt-[-5px]" ><BsArrowLeftShort /></section>
-      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs" to="/">Home</Link>
-      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs" to="/about">About Charlie X</Link>
-      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs" to="/browse">Browse</Link>
-      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs" to="/learn">Learn & Study</Link>
-      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs" to="/insights">Expert Insights</Link>
-      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs" to="/connect">Connect</Link>
+      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs hover:text-blue-800" to="/">Home</Link>
+      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs hover:text-blue-800" to="/about">About Charlie X</Link>
+      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs hover:text-blue-800" to="/browse">Browse</Link>
+      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs hover:text-blue-800" to="/learn">Learn & Study</Link>
+      <Link className="mx-2 text-clip whitespace-nowrap font-cutive text-xs hover:text-blue-800" to="/insights">Expert Insights</Link>
+      <div className="mx-2 text-clip whitespace-nowrap font-cutive text-xs hover:text-gray-500">Connect</div>
     </div>
 
   )
