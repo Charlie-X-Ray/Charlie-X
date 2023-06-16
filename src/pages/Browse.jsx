@@ -34,7 +34,7 @@ const GalleryHero = ({ image, src, desc, id, ...props }) => {
 function Gallery({ heroProps }) {
 
   return (
-    <div id="galleryComponent" className="overflow-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-items-center items-center mx-4">
+    <div id="galleryComponent" className="overflow-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 justify-items-center items-center mx-4">
       {heroProps.map((heroProp) => <GalleryHero image={heroProp?.thumbnail?? <Image />} src={heroProp.src} desc={`${heroProp.category}`} key={heroProp.id} id = {heroProp.id}/>)}
     </div>
   )
