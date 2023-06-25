@@ -6,6 +6,7 @@ import ErrorPage from "./commons/ErrorPage.jsx";
 import About from "./pages/About.jsx";
 import Browse from "./pages/Browse.jsx";
 import Insights from "./pages/Insights.jsx";
+import LearnStudy from "./pages/LearnStudy.jsx";
 
 import "./index.css";
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/insights",
     element: <Insights />,
+  },
+  {
+    path: "/Learn",
+    element: <LearnStudy />,
   },
 ])
 
