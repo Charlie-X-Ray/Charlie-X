@@ -5,6 +5,11 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   envDir: './env',
+  resolve: {
+    alias: {
+      'react-native': 'react-native-web',
+    },
+  },
   test: {
     globals: true,
     environment: "jsdom",
