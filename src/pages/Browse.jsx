@@ -14,8 +14,8 @@ const GalleryHero = ({ image, src, desc, id, ...props }) => {
   return (
     <div className="my-4 w-11/12 flex flex-col items-center font-medium border-0
     bg-[#BAE5E3] hover:bg-blue-500 hover:text-white text-black rounded-t-2xl" {...props}>
-      <div className="w-full shrink-0 pt-1 text-sm md:text-md whitespace-nowrap font-cutive">
-        <Link className="pt-2 pl-3" to={`focus`} state = {state}>
+      <div className="w-full shrink-0 pt-1 text-sm md:text-md whitespace-nowrap font-cutive overflow-hidden">
+        <Link className="pt-2 pl-3 " to={`focus`} state = {state}>
           {desc}
         </Link>
       </div>
@@ -34,7 +34,7 @@ const GalleryHero = ({ image, src, desc, id, ...props }) => {
 function Gallery({ heroProps }) {
 
   return (
-    <div id="galleryComponent" className="overflow-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-items-center items-center mx-4">
+    <div id="galleryComponent" className="overflow-auto grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6 justify-items-center items-center mx-4">
       {heroProps.map((heroProp) => <GalleryHero image={heroProp?.thumbnail?? <Image />} src={heroProp.src} desc={`${heroProp.category}`} key={heroProp.id} id = {heroProp.id}/>)}
     </div>
   )
