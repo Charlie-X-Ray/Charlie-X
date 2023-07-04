@@ -5,17 +5,17 @@ function About() {
 
   return (
     <SubpageLayout heading="About Charlie X">
-      <div className="flex w-full justify-center gap-10 text-3xl items-center p-10">
+      {/* <div className="flex w-full justify-center gap-10 text-3xl items-center p-10">
         <div className="flex flex-col text-center text-xs">
-        <img className="h-92" src="/placeholder_lava.jpg" alt="stable diffusion lava mountains" title="lava mountains by stable diffusion"/>
-        Placeholder by stable diffusion
+          <img className="h-92" src="/placeholder_lava.jpg" alt="stable diffusion lava mountains" title="lava mountains by stable diffusion" />
+          Placeholder by stable diffusion
         </div>
         <div className="flex flex-col text-center text-xs">
-        <img className="h-92" src="/placeholder_grandalien.jpg" alt="stable diffusion grand alien" title="grand alien by stable diffusion"/>
-        Placeholder by stable diffusion
+          <img className="h-92" src="/placeholder_grandalien.jpg" alt="stable diffusion grand alien" title="grand alien by stable diffusion" />
+          Placeholder by stable diffusion
         </div>
-      </div>
-      <div className="flex flex-col w-full h-32 justify-center text-3xl items-center">
+      </div> */}
+      <div className="flex flex-col w-full h-32 mt-8 justify-center text-3xl items-center">
         <h1>
           Charlie X was born out of a pressing need to democratize access to medical technology. 
         </h1>

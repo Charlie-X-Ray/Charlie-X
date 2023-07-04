@@ -8,11 +8,11 @@ import { useState } from "react";
 function NavBar() {
 
   const buttons = [
-    {
-      msg: "About Charlie X",
-      icon: <RiFileUserLine />,
-      linkto: "/about",
-    },
+    // {
+    //   msg: "About Charlie X",
+    //   icon: <RiFileUserLine />,
+    //   linkto: "/about",
+    // },
     {
       msg: "Browse",
       icon: <TbInfoCircleFilled />,
@@ -31,6 +31,7 @@ function NavBar() {
     {
       msg: "Connect",
       icon: <FaRocketchat />,
+      linkto: "/connect",
     },
   ]
 
