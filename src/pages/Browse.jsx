@@ -2,7 +2,7 @@ import Image from "../commons/Image"
 import { Link, useNavigate } from "react-router-dom"
 import SubpageLayout, { SearchBar } from "../commons/SubpageLayout"
 import { useState } from "react"
-import { getDownloadURL, ref, list } from "firebase/storage"
+import { getDownloadURL, ref, list, getMetadata } from "firebase/storage"
 import { fbstorage } from "../commons/Firebase"
 import { Outlet, useLocation } from "react-router-dom"
 
@@ -45,13 +45,14 @@ const getXRays = async ( fbstorage ) => {
   
   let xRays = []
 
-  const dirRef = ref(fbstorage, 'xrays')
+  const dirRef = ref(fbstorage, 'browse')
+  const ogRef = ref(fbstorage, 'original')
   // Read api here https://firebase.google.com/docs/reference/js/storage.md#list
-  const xRaysRaw = await list(dirRef, { maxResults:10, }).then( xs => xs.items ).then(xs => xs.filter( x => !x.name.includes("chestxray")))
+  const xRaysRaw = await list(dirRef, { maxResults:50, }).then( xs => xs.items ).then(xs => xs.filter( x => !x.name.includes("chestxray")))
   xRays = xRaysRaw.map(async (xRayRef, i) => {
     // Interface can be found https://firebase.google.com/docs/reference/js/storage.storagereference
     return {
-      disease:xRayRef.name.replace(".png",""),
+      disease:(await getMetadata(xRayRef)).customMetadata.condition,
       srcPromise: await getDownloadURL(xRayRef),
       id: i,
     }
