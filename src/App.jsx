@@ -2,6 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Root from "../pages/Root"
 import DefaultLayout from "./DefaultLayout"
 import Gallery from "../pages/Gallery"
+import LearnStudy from "../pages/LearnStudy"
+import FlashcardFrontPage from "../pages/FlashcardFrontPage"
 
 const router = createBrowserRouter([
   {
