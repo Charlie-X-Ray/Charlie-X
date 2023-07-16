@@ -31,16 +31,6 @@ const router = createBrowserRouter([
   {
     path: "/browse",
     element: <Browse />,
-    children: [
-      {
-        path:"",
-        element: <BrowseDefault />,
-      },
-      {
-        path:"focus",
-        element: <BrowseFocus />,
-      },
-    ]
   },
   {
     path: "/insights",

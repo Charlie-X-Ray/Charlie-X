@@ -1,14 +1,25 @@
 import Image from "../commons/Image"
 import { Link, useNavigate } from "react-router-dom"
 import SubpageLayout, { SearchBar } from "../commons/SubpageLayout"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getDownloadURL, ref, list, getMetadata } from "firebase/storage"
 import { fbstorage } from "../commons/Firebase"
 import { Outlet, useLocation } from "react-router-dom"
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react"
 
 const GalleryHero = ({ image, src, desc, id, ...props }) => {
 
   const state = { id:id, desc: desc, src:src}
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
 
   return (
@@ -19,11 +30,17 @@ const GalleryHero = ({ image, src, desc, id, ...props }) => {
           {desc}
         </Link>
       </div>
-      <div className="flex h-3/4 w-full justify-center items-center text-6xl ">
-        <Link className="h-full w-full" to={`focus`} state = {state}>
-          {image}
-        </Link>
+      <div className="flex h-3/4 w-full justify-center items-center text-6xl " onClick={onOpen}>
+        {image}
       </div>
+
+      <Modal isOpen={isOpen} onClose={onClose} size='2xl'>
+        <ModalOverlay/>
+        <ModalContent>
+          <ModalHeader bg="#BAE5E3">{desc}</ModalHeader>
+          {image}
+        </ModalContent>
+      </Modal>
     </div>
 
   )
@@ -42,6 +59,7 @@ function Gallery({ heroProps }) {
 
 // Returns an array of X Rays' metadata
 const getXRays = async ( fbstorage ) => {
+  console.log("getting XRays")
   
   let xRays = []
 
@@ -53,7 +71,8 @@ const getXRays = async ( fbstorage ) => {
     // Interface can be found https://firebase.google.com/docs/reference/js/storage.storagereference
     return {
       disease:(await getMetadata(xRayRef)).customMetadata.condition,
-      srcPromise: await getDownloadURL(xRayRef),
+      // srcPromise: await getDownloadURL(xRayRef),
+      img: <img src={await getDownloadURL(xRayRef)}/>,
       id: i,
     }
   })
@@ -68,22 +87,19 @@ const getXRays = async ( fbstorage ) => {
   return xRays;
 }
 
-const BrowseDefault = () => {
+const BrowseDefault = ({ images }) => {
 
   const [ searchStr, setSearchStr ] = useState(new RegExp("", "g"))
-  const [ imageDatas, setImageData ] = useState([])
-
-  getXRays(fbstorage).then(setImageData)
 
   return (
       <>
         <div className="flex w-full justify-center p-2 mt-4">
-          <SearchBar state={ searchStr } setState={ setSearchStr} />
+          <SearchBar state={ searchStr } setState={ setSearchStr } />
         </div>
-        <Gallery heroProps={imageDatas.filter(x => searchStr.test(x.disease.toString())).map(x => {
+        <Gallery heroProps={images.filter(x => searchStr.test(x.disease.toString())).map(x => {
           return {
             category: x.disease,
-            thumbnail: <img src={ x.srcPromise } />,
+            thumbnail: x.img,
             src: x.srcPromise,
             id: x.id,
           }
@@ -145,14 +161,21 @@ const BrowseFocus = () => {
 
     </div>
   )
-
 }
 
 const Browse = () => {
+  const [ imageDatas, setImageData ] = useState([])
+  const [ imageCount, setImageCount ] = useState(0)
+
+  let imgs = []
+
+  useEffect( () => {
+    getXRays(fbstorage).then(setImageData).catch(console.erro)
+  }, [])
 
   return (
     <SubpageLayout heading="Browse">
-      <Outlet />
+      <BrowseDefault images={imageDatas}/>
     </SubpageLayout>
   )
 }

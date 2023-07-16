@@ -132,7 +132,7 @@ const SearchBar = ( { state, setState }) => {
         placeholder="Search"
         onChange={ e => {
             const filterString = e.target.value
-            const filterReg = new RegExp(filterString)
+            const filterReg = new RegExp(filterString, "ig")
             console.log(filterReg)
             setState(filterReg)
           }}
