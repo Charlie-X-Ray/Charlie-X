@@ -25,14 +25,12 @@ const GalleryHero = ({ image, src, desc, id, ...props }) => {
   return (
     <div className="my-4 w-11/12 flex flex-col items-center font-medium border-0
     bg-[#BAE5E3] hover:bg-blue-500 hover:text-white text-black rounded-t-2xl" {...props}>
-      <div className="w-full shrink-0 pt-1 text-sm md:text-md whitespace-nowrap font-cutive overflow-hidden">
-        <Link className="pt-2 pl-3 " to={`focus`} state = {state}>
-          {desc}
-        </Link>
-      </div>
-      <div className="flex h-3/4 w-full justify-center items-center text-6xl " onClick={onOpen}>
+      <button className="w-full shrink-0 pt-1 pl-3 text-sm md:text-md whitespace-nowrap font-cutive overflow-hidden text-left" onClick={onOpen}>
+        {desc}
+      </button>
+      <button className="flex h-3/4 w-full justify-center items-center text-6xl " onClick={onOpen}>
         {image}
-      </div>
+      </button>
 
       <Modal isOpen={isOpen} onClose={onClose} size='2xl'>
         <ModalOverlay/>
