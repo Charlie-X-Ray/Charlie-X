@@ -130,6 +130,7 @@ const SearchBar = ( { state, setState }) => {
       <input
         className="max-w-lg w-3/4 bg-slate-600 pl-2 text-white"
         placeholder="Search"
+        data-test="searchbar"
         onChange={ e => {
             const filterString = e.target.value
             const filterReg = new RegExp(filterString, "ig")

@@ -23,8 +23,10 @@ const GalleryHero = ({ image, src, desc, id, ...props }) => {
 
 
   return (
-    <div className="my-4 w-11/12 flex flex-col items-center font-medium border-0
-    bg-[#BAE5E3] hover:bg-blue-500 hover:text-white text-black rounded-t-2xl" {...props}>
+    <div
+      data-test="xrayhero"
+      className="my-4 w-11/12 flex flex-col items-center font-medium border-0
+        bg-[#BAE5E3] hover:bg-blue-500 hover:text-white text-black rounded-t-2xl" {...props}>
       <button className="w-full shrink-0 pt-1 pl-3 text-sm md:text-md whitespace-nowrap font-cutive overflow-hidden text-left" onClick={onOpen}>
         {desc}
       </button>
@@ -106,61 +108,6 @@ const BrowseDefault = ({ images }) => {
   )
 }
 
-const BrowseFocus = () => {
-
-  const location = useLocation()
-  const state = location.state
-  const navigate = useNavigate()
-
-  return (
-    <div className="flex h-full w-full">
-      <img className="p-6" src={state.src} />
-
-      <div className="flex-auto flex flex-col text-justify items-center mx-6" id="xray-annotaions">
-        <h1 className="mt-5 text-center text-xl lg:text-4xl font-semibold font-serif">
-          {state.desc}
-        </h1>
-        <p>
-          A generic lung disease is an insidious and pernicious affliction that wreaks havoc on the delicate and vital respiratory system,
-          inflicting profound suffering and posing grave threats to the overall well-being and quality of life of those unfortunate enough to endure its relentless grip.
-          From the moment it infiltrates the lungs, this debilitating malady obliterates the intricate network of bronchial tubes, alveoli, and blood vessels,
-          distorting their once harmonious structure and impairing their crucial functions with ruthless efficiency.  With each labored breath,
-          the lungs, once a beacon of oxygenation and life-sustaining power, become the battleground for a merciless war, as inflammation, scarring,
-          and irreversible damage consume their once vibrant and elastic nature, rendering them feeble and fragile.
-        </p>
-
-        <br />
-
-        <p>
-          Beyond the immediate and tangible implications,
-          this generic lung disease casts a shadow of uncertainty and fear over the lives of those affected and their loved ones.
-          The relentless progression of the illness, often accompanied by a sense of helplessness and a lack of definitive cures,
-          fosters a profound sense of anxiety and despair, breeding a constant state of emotional distress that permeates every aspect of daily life.
-          Dreams are shattered, plans are derailed, and the future becomes a haunting enigma,
-          as the specter of chronic debilitation and premature mortality looms ominously.
-        </p>
-
-        <br />
-
-        <p>
-          In conclusion, the detrimental impact of a generic lung disease cannot be overstated.  It strips individuals of their vitality,
-          steals their breath, and condemns them to a perpetual battle against their own faltering respiratory system.
-          It ravages the body, erodes the spirit, and instills a pervasive sense of fear and uncertainty.
-          Recognizing the severity of this affliction is crucial in driving advancements in medical research, public awareness,
-          and compassionate care to alleviate the burden it imposes on countless lives and strive towards a future where the devastating consequences of lung diseases are minimized,
-          and every breath is a precious gift of life.
-        </p>
-
-        <button onClick={() => navigate(-1)} className="bg-blue-400 rounded-lg px-2 mt-5 text-xl hover:bg-blue-500 font-cabin hover:text-white">
-          Back to Browse
-        </button>
-
-      </div>
-
-    </div>
-  )
-}
-
 const Browse = () => {
   const [ imageDatas, setImageData ] = useState([])
   const [ imageCount, setImageCount ] = useState(0)
@@ -179,4 +126,3 @@ const Browse = () => {
 }
 
 export default Browse;
-export { BrowseDefault, BrowseFocus };

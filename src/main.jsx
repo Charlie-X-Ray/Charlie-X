@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import Root from "./pages/Root.jsx";
 import ErrorPage from "./commons/ErrorPage.jsx";
 import About from "./pages/About.jsx";
-import Browse, {BrowseDefault, BrowseFocus} from "./pages/Browse.jsx";
+import Browse from "./pages/Browse.jsx";
 import Insights from "./pages/Insights.jsx";
 import LearnStudy from "./pages/LearnStudy.jsx";
 import Connect from "./pages/Connect.jsx";

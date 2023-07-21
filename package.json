@@ -11,10 +11,12 @@
     "test": "vitest"
   },
   "dependencies": {
+    "-": "^0.0.1",
     "@chakra-ui/react": "^2.7.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "core-js": "^3.31.0",
+    "D": "^1.0.0",
     "firebase": "^9.22.0",
     "framer-motion": "^10.12.18",
     "react": "^18.2.0",
@@ -31,6 +33,7 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.14",
+    "cypress": "^12.17.2",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
