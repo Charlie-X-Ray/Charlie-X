@@ -14,6 +14,8 @@ jobs:
     name: Build and preview on dev
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -24,6 +26,10 @@ jobs:
           wait-on: http://localhost:5173
           start: npx vite --host
           component: true
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Node
         uses: actions/setup-node@v3
         with:

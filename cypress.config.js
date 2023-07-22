@@ -2,6 +2,7 @@ import { defineConfig } from "cypress";
 import viteConfig from './vite.config.js'
 
 export default defineConfig({
+  projectId: "eogrz3",
   viewportHeight:768,
   viewportWidth:1366,
   e2e: {
