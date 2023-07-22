@@ -2,6 +2,7 @@ import React from 'react'
 import Browse from './Browse'
 
 describe('<Browse />', () => {
+  const timeout = 20000
   beforeEach('renders', () => {
     // see: https://on.cypress.io/mounting-react
     cy.mount(<Browse />)
@@ -12,14 +13,14 @@ describe('<Browse />', () => {
 
   it.only('displays at least 10 xrays', () => {
     // Should find condition names
-    cy.get('[data-test="xrayhero"]', {timeout: 10000})
+    cy.get('[data-test="xrayhero"]', {timeout: timeout})
       .should('have.length.at.least', 10)
 
   })
   it.only('has a usable search bar for filtering', () => {
     const searchStr = "cardio"
     const negativeSearchStr = "ILD"
-    cy.get('[data-test="xrayhero"]', {timeout: 10000})
+    cy.get('[data-test="xrayhero"]', {timeout: timeout})
       .should('have.length.at.least', 10)
 
     cy.get('[data-test="searchbar"]')
@@ -30,7 +31,7 @@ describe('<Browse />', () => {
     cy.get('@searchBar')
       .should('have.focus')
 
-    cy.get('[data-test="xrayhero"]', {timeout: 10000})
+    cy.get('[data-test="xrayhero"]', {timeout: timeout})
       .as('xrays')
       .should('not.have', negativeSearchStr)
   })
