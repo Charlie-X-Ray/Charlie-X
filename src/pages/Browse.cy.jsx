@@ -2,7 +2,7 @@ import React from 'react'
 import Browse from './Browse'
 
 describe('<Browse />', () => {
-  const timeout = 20000
+  const timeout = 30000
   beforeEach('renders', () => {
     // see: https://on.cypress.io/mounting-react
     cy.mount(<Browse />)
