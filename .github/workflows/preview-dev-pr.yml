@@ -15,14 +15,21 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
       - run: npm ci # stands for npm clean-install for automated deployments
-      - run: npm test # same as npm run test
-      - run: npm run build
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          wait-on: http://localhost:5173
+          build: npm run build
+          start: npx vite --host
+          component: true
+      # - run: npm test # same as npm run test
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
