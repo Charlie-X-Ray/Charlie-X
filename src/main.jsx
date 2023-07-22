@@ -3,12 +3,10 @@ import ReactDOM from "react-dom/client";
 
 import Root from "./pages/Root.jsx";
 import ErrorPage from "./commons/ErrorPage.jsx";
-import Browse from "./pages/Browse.jsx";
+import About from "./pages/About.jsx";
+import Browse, {BrowseDefault, BrowseFocus} from "./pages/Browse.jsx";
 import Insights from "./pages/Insights.jsx";
 import LearnStudy from "./pages/LearnStudy.jsx";
-import Connect from "./pages/Connect.jsx";
-
-import { ChakraProvider } from "@chakra-ui/react";
 
 import "./index.css";
 
@@ -24,8 +22,22 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: "/about",
+    element: <About />,
+  },
+  {
     path: "/browse",
     element: <Browse />,
+    children: [
+      {
+        path:"",
+        element: <BrowseDefault />,
+      },
+      {
+        path:"focus",
+        element: <BrowseFocus />,
+      },
+    ]
   },
   {
     path: "/insights",
@@ -35,18 +47,10 @@ const router = createBrowserRouter([
     path: "/Learn",
     element: <LearnStudy />,
   },
-  {
-    path: "/connect",
-    element: <Connect />,
-  },
 ])
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <RouterProvider router={router} />
-    </ChakraProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
-
-export {router}
