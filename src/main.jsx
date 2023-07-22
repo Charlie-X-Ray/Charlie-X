@@ -7,6 +7,8 @@ import About from "./pages/About.jsx";
 import Browse, {BrowseDefault, BrowseFocus} from "./pages/Browse.jsx";
 import Insights from "./pages/Insights.jsx";
 import LearnStudy from "./pages/LearnStudy.jsx";
+import { FlashcardApp } from "./pages/LearnStudy.jsx";
+import FlashcardFrontPage from "./pages/FlashcardFrontPage.jsx";
 
 import "./index.css";
 
@@ -46,6 +48,16 @@ const router = createBrowserRouter([
   {
     path: "/Learn",
     element: <LearnStudy />,
+    children: [
+      {
+        path:"Flashcards",
+        element: <FlashcardApp/>
+      },
+      {
+        path:"",
+        element: <FlashcardFrontPage/>
+      }
+    ]
   },
 ])
 

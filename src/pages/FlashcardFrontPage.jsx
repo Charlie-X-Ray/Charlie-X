@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { Link, useNavigate } from "react-router-dom";
 
 const FlashcardFrontPage = ({ onOrderSelected }) => {
   const handleAsPerDatabase = () => {
@@ -16,7 +17,9 @@ const FlashcardFrontPage = ({ onOrderSelected }) => {
       <Image source={'path/to/your/image.png'} style={styles.image} />
       <Text style={styles.subheading}>Choose Flashcard Order:</Text>
       <TouchableOpacity style={styles.button} onPress={handleAsPerDatabase}>
-        <Text style={styles.buttonText}>As per Database</Text>
+       <Link to="/Learn/Flashcards">
+        <Text style={styles.buttonText}>Randomise</Text>
+        </Link> 
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleRandomize}>
         <Text style={styles.buttonText}>Randomize</Text>
