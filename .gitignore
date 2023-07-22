@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Cypress directores and files
+cypress/downloads
+cypress/screenshots
+cypress/videos
+
+*Zone.Identifier

@@ -30,7 +30,7 @@ function PersonCard( {name, subtitle, desc, avatarSrc, linkedin, email, github} 
 
 
   return (
-    <Card maxW='md'>
+    <Card data-test='personalinfo' maxW='md'>
       <CardHeader>
         <Flex spacing='4'>
           <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>

@@ -15,13 +15,28 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+import '../../src/index.css'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
 import { mount } from 'cypress/react18'
+import { MemoryRouter } from 'react-router-dom'
+import { ChakraProvider } from "@chakra-ui/react";
+import React from 'react';
 
-Cypress.Commands.add('mount', mount)
+Cypress.Commands.add('mount', (component, options = {}) => {
+
+  const wrapped = (
+    <React.StrictMode>
+      <ChakraProvider>
+        <MemoryRouter>{component}</MemoryRouter>
+      </ChakraProvider>
+    </React.StrictMode>
+  )
+
+  return mount(wrapped)
+})
 
 // Example use:
 // cy.mount(<MyComponent />)
