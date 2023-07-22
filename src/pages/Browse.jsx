@@ -1,29 +1,46 @@
 import Image from "../commons/Image"
 import { Link, useNavigate } from "react-router-dom"
 import SubpageLayout, { SearchBar } from "../commons/SubpageLayout"
-import { useState } from "react"
-import { getDownloadURL, ref, list } from "firebase/storage"
+import { useEffect, useState } from "react"
+import { getDownloadURL, ref, list, getMetadata } from "firebase/storage"
 import { fbstorage } from "../commons/Firebase"
 import { Outlet, useLocation } from "react-router-dom"
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react"
 
 const GalleryHero = ({ image, src, desc, id, ...props }) => {
 
   const state = { id:id, desc: desc, src:src}
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
 
   return (
-    <div className="my-4 w-11/12 flex flex-col items-center font-medium border-0
-    bg-[#BAE5E3] hover:bg-blue-500 hover:text-white text-black rounded-t-2xl" {...props}>
-      <div className="w-full shrink-0 pt-1 text-sm md:text-md whitespace-nowrap font-cutive overflow-hidden">
-        <Link className="pt-2 pl-3 " to={`focus`} state = {state}>
-          {desc}
-        </Link>
-      </div>
-      <div className="flex h-3/4 w-full justify-center items-center text-6xl ">
-        <Link className="h-full w-full" to={`focus`} state = {state}>
+    <div
+      data-test="xrayhero"
+      className="my-4 w-11/12 flex flex-col items-center font-medium border-0
+        bg-[#BAE5E3] hover:bg-blue-500 hover:text-white text-black rounded-t-2xl" {...props}>
+      <button className="w-full shrink-0 pt-1 pl-3 text-sm md:text-md whitespace-nowrap font-cutive overflow-hidden text-left" onClick={onOpen}>
+        {desc}
+      </button>
+      <button className="flex h-3/4 w-full justify-center items-center text-6xl " onClick={onOpen}>
+        {image}
+      </button>
+
+      <Modal isOpen={isOpen} onClose={onClose} size='2xl'>
+        <ModalOverlay/>
+        <ModalContent>
+          <ModalHeader bg="#BAE5E3">{desc}</ModalHeader>
           {image}
-        </Link>
-      </div>
+        </ModalContent>
+      </Modal>
     </div>
 
   )
@@ -42,17 +59,20 @@ function Gallery({ heroProps }) {
 
 // Returns an array of X Rays' metadata
 const getXRays = async ( fbstorage ) => {
+  console.log("getting XRays")
   
   let xRays = []
 
-  const dirRef = ref(fbstorage, 'xrays')
+  const dirRef = ref(fbstorage, 'browse')
+  const ogRef = ref(fbstorage, 'original')
   // Read api here https://firebase.google.com/docs/reference/js/storage.md#list
-  const xRaysRaw = await list(dirRef, { maxResults:10, }).then( xs => xs.items ).then(xs => xs.filter( x => !x.name.includes("chestxray")))
+  const xRaysRaw = await list(dirRef, { maxResults:50, }).then( xs => xs.items ).then(xs => xs.filter( x => !x.name.includes("chestxray")))
   xRays = xRaysRaw.map(async (xRayRef, i) => {
     // Interface can be found https://firebase.google.com/docs/reference/js/storage.storagereference
     return {
-      disease:xRayRef.name.replace(".png",""),
-      srcPromise: await getDownloadURL(xRayRef),
+      disease:(await getMetadata(xRayRef)).customMetadata.condition,
+      // srcPromise: await getDownloadURL(xRayRef),
+      img: <img src={await getDownloadURL(xRayRef)}/>,
       id: i,
     }
   })
@@ -67,22 +87,19 @@ const getXRays = async ( fbstorage ) => {
   return xRays;
 }
 
-const BrowseDefault = () => {
+const BrowseDefault = ({ images }) => {
 
   const [ searchStr, setSearchStr ] = useState(new RegExp("", "g"))
-  const [ imageDatas, setImageData ] = useState([])
-
-  getXRays(fbstorage).then(setImageData)
 
   return (
       <>
         <div className="flex w-full justify-center p-2 mt-4">
-          <SearchBar state={ searchStr } setState={ setSearchStr} />
+          <SearchBar state={ searchStr } setState={ setSearchStr } />
         </div>
-        <Gallery heroProps={imageDatas.filter(x => searchStr.test(x.disease.toString())).map(x => {
+        <Gallery heroProps={images.filter(x => searchStr.test(x.disease.toString())).map(x => {
           return {
             category: x.disease,
-            thumbnail: <img src={ x.srcPromise } />,
+            thumbnail: x.img,
             src: x.srcPromise,
             id: x.id,
           }
@@ -91,70 +108,21 @@ const BrowseDefault = () => {
   )
 }
 
-const BrowseFocus = () => {
-
-  const location = useLocation()
-  const state = location.state
-  const navigate = useNavigate()
-
-  return (
-    <div className="flex h-full w-full">
-      <img className="p-6" src={state.src} />
-
-      <div className="flex-auto flex flex-col text-justify items-center mx-6" id="xray-annotaions">
-        <h1 className="mt-5 text-center text-xl lg:text-4xl font-semibold font-serif">
-          {state.desc}
-        </h1>
-        <p>
-          A generic lung disease is an insidious and pernicious affliction that wreaks havoc on the delicate and vital respiratory system,
-          inflicting profound suffering and posing grave threats to the overall well-being and quality of life of those unfortunate enough to endure its relentless grip.
-          From the moment it infiltrates the lungs, this debilitating malady obliterates the intricate network of bronchial tubes, alveoli, and blood vessels,
-          distorting their once harmonious structure and impairing their crucial functions with ruthless efficiency.  With each labored breath,
-          the lungs, once a beacon of oxygenation and life-sustaining power, become the battleground for a merciless war, as inflammation, scarring,
-          and irreversible damage consume their once vibrant and elastic nature, rendering them feeble and fragile.
-        </p>
-
-        <br />
-
-        <p>
-          Beyond the immediate and tangible implications,
-          this generic lung disease casts a shadow of uncertainty and fear over the lives of those affected and their loved ones.
-          The relentless progression of the illness, often accompanied by a sense of helplessness and a lack of definitive cures,
-          fosters a profound sense of anxiety and despair, breeding a constant state of emotional distress that permeates every aspect of daily life.
-          Dreams are shattered, plans are derailed, and the future becomes a haunting enigma,
-          as the specter of chronic debilitation and premature mortality looms ominously.
-        </p>
-
-        <br />
-
-        <p>
-          In conclusion, the detrimental impact of a generic lung disease cannot be overstated.  It strips individuals of their vitality,
-          steals their breath, and condemns them to a perpetual battle against their own faltering respiratory system.
-          It ravages the body, erodes the spirit, and instills a pervasive sense of fear and uncertainty.
-          Recognizing the severity of this affliction is crucial in driving advancements in medical research, public awareness,
-          and compassionate care to alleviate the burden it imposes on countless lives and strive towards a future where the devastating consequences of lung diseases are minimized,
-          and every breath is a precious gift of life.
-        </p>
-
-        <button onClick={() => navigate(-1)} className="bg-blue-400 rounded-lg px-2 mt-5 text-xl hover:bg-blue-500 font-cabin hover:text-white">
-          Back to Browse
-        </button>
-
-      </div>
-
-    </div>
-  )
-
-}
-
 const Browse = () => {
+  const [ imageDatas, setImageData ] = useState([])
+  const [ imageCount, setImageCount ] = useState(0)
+
+  let imgs = []
+
+  useEffect( () => {
+    getXRays(fbstorage).then(setImageData).catch(console.erro)
+  }, [])
 
   return (
     <SubpageLayout heading="Browse">
-      <Outlet />
+      <BrowseDefault images={imageDatas}/>
     </SubpageLayout>
   )
 }
 
 export default Browse;
-export { BrowseDefault, BrowseFocus };

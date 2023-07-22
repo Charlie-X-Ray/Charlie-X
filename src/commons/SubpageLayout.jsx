@@ -3,7 +3,7 @@ import {BsArrowLeftShort} from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
-import { FaPen, FaRocketchat } from "react-icons/fa"
+import { FaPen, FaRegObjectGroup, FaRocketchat } from "react-icons/fa"
 import { RiFileUserLine, RiStethoscopeFill } from"react-icons/ri"
 import { TbInfoCircleFilled, TbReportSearch } from "react-icons/tb"
 
@@ -24,9 +24,9 @@ function DefaultSideBar() {
       <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/">
         <BsArrowLeftShort />
       </Link>
-      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/about">
+      {/* <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/about">
         <RiFileUserLine /> 
-      </Link>
+      </Link> */}
       <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/browse">
         <TbInfoCircleFilled /> 
       </Link>
@@ -36,9 +36,9 @@ function DefaultSideBar() {
       <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/insights">
         <RiStethoscopeFill /> 
       </Link>
-      <div className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-gray-500">
-        <FaRocketchat />
-      </div>
+      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/connect">
+        <FaRocketchat /> 
+      </Link>
     </div>
   );
 
@@ -130,9 +130,10 @@ const SearchBar = ( { state, setState }) => {
       <input
         className="max-w-lg w-3/4 bg-slate-600 pl-2 text-white"
         placeholder="Search"
+        data-test="searchbar"
         onChange={ e => {
             const filterString = e.target.value
-            const filterReg = new RegExp(filterString)
+            const filterReg = new RegExp(filterString, "ig")
             console.log(filterReg)
             setState(filterReg)
           }}

@@ -83,6 +83,7 @@ function Insights() {
           rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none
           dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           id="file_input"
+          data-test="xrayinput"
           type="file"
           onChange={e => setXRayInput(e.target.files[0])}
         />
@@ -91,7 +92,7 @@ function Insights() {
           {
             xRayInput
               ? (
-                <div>
+                <div data-test="ogxray">
                   <h4>Original XRay</h4>
                   <img src={URL.createObjectURL(xRayInput)} className="max-h-96" />
                 </div>
@@ -101,7 +102,7 @@ function Insights() {
           {
             heart
               ? (
-                <div>
+                <div data-test="mlxray">
                   <h4><span className="text-yellow-600">Heart Segment</span> Chance of Cardiomegaly: <span className={`text-red-${prediction > 0.50 ? '600' : '0'}`}>{(prediction * 100).toFixed(2)}%</span></h4>
                   <img src={heart} className="max-h-96" />
                 </div>
