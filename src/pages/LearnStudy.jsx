@@ -10,7 +10,7 @@ function LearnStudy() {
   return (
     <SubpageLayout heading="Learn & Study">
       <Outlet>
-        <FlashcardApp imageDatas={flashcardsData}/>
+        
       </Outlet>
 
     </SubpageLayout>
@@ -65,15 +65,11 @@ const FlashcardApp = ({imageDatas}) => {
   const [writeUp, setWriteUp] = useState('');
   const [isWriteUpVisible, setIsWriteUpVisible] = useState(false);
 
-
-  const flashcards = () => {
-    const [imageDatas, setImageData]= useState([])
+  const [flashcards, setImageData]= useState([])
     
     useEffect(() => {
-      getXRays(fbstorage).then(setImageData.catch(console.erro))
+      getXRays(fbstorage).then(setImageData.catch(console.error))
     }, [])
-    // Add more flashcards as needed
-  }
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
     setIsWriteUpVisible(!isWriteUpVisible);
