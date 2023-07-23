@@ -37,7 +37,7 @@ const getXRays = async ( fbstorage ) => {
   xRays = await Promise.all(xRaysRaw.map(async (xRayRef, i) => {
     // Interface can be found https://firebase.google.com/docs/reference/js/storage.storagereference
     const unannotatedImage = await getDownloadURL(xRayRef);
-    const annotatedImageRef = child(ogRef, xRayRef.name);
+    const annotatedImageRef = ref(ogRef, xRayRef.name);
     const annotatedImage = await getDownloadURL(annotatedImageRef);
     return {
       disease:(await getMetadata(xRayRef)).customMetadata.condition,
