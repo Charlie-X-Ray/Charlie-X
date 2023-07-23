@@ -32,7 +32,7 @@ describe('Student visits site to try ml', () => {
       .as('fileinput')
     
     cy.get('@fileinput')
-      .selectFile(exampleFile)
+      .selectFile(exampleFile, {force:true})
     
     cy.wait(1000)
     submitAndRecieveOutput()

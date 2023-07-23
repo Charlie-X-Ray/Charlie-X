@@ -22,7 +22,7 @@ describe('<Insights />', () => {
       .as('fileinput')
     
     cy.get('@fileinput')
-      .selectFile(exampleFile)
+      .selectFile(exampleFile, {force:true})
   })
 
   it.only('shows original xray', () => {
@@ -30,7 +30,7 @@ describe('<Insights />', () => {
     cy.get('input[type=file]')
       .should('have.attr', 'data-test', "xrayinput")
       .as('fileinput')
-      .selectFile(exampleFile)
+      .selectFile(exampleFile, {force:true})
     
     cy.get('[data-test="ogxray"]')
   })

@@ -88,7 +88,7 @@ function Insights() {
           )
           : <></>
       }
-      <Button as="label" background="blue.400" isDisabled={isFetchingXRay}>
+      <Button as="label" background="blue.400" isDisabled={isFetchingXRay} data-test="xrayinputlabel">
         {xRayInput ? "Change Image" : "Upload Image"}
         <input
           className="hidden w-full max-w-sm text-sm text-gray-900
