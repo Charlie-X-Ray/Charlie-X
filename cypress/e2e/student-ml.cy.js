@@ -8,7 +8,7 @@ describe('Student visits site to try ml', () => {
       .as('loadingicon')
       .should('be.visible')
     
-    cy.get('[data-test="xrayoutput"]', {timeout:15000})
+    cy.get('[data-test="mlxray"]', {timeout:15000})
       .should('be.visible')
     
     cy.get('@loadingicon')
@@ -42,7 +42,7 @@ describe('Student visits site to try ml', () => {
       .selectFile(exampleFile2)
     
     cy.root()
-      .should('not.have', '[data-test="xrayoutput"]')
+      .should('not.have', '[data-test="mlxray"]')
 
     cy.wait(1000)
     submitAndRecieveOutput()

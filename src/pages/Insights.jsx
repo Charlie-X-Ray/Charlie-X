@@ -125,8 +125,8 @@ function Insights() {
               }
             </p>
           </h4>
-          <div className="border-2 border-red-600 shadow-lg my-2">
-            <img src={heart} className="max-h-96" />
+          <div className="border-2 border-red-600 shadow-lg my-2" data-test="mlxray">
+            <img src={heart} className="max-h-96"/>
           </div></>)
           : (
         <>
@@ -176,6 +176,7 @@ function Insights() {
             <Button
               background="green.400"
               isLoading={isFetchingXRay}
+              data-test="xraysubmit"
               onClick={() => handleXRayInput(xRayInput)}
             >
               Get Insights!
