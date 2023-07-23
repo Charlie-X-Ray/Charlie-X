@@ -13,16 +13,13 @@ const FlashcardFrontPage = ({ onOrderSelected }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Welcome to Flashcards!</Text>
-      <Image source={'path/to/your/image.png'} style={styles.image} />
-      <Text style={styles.subheading}>Choose Flashcard Order:</Text>
+      <Text style={styles.heading}>Welcome to Learn & Study!</Text>
+      <Image source={'https://firebasestorage.googleapis.com/v0/b/charlie-x-ray.appspot.com/o/xrays%2FFor%20Learn%20Study%20Flashcard%2FPneumonia.jpeg?alt=media&token=238c3862-e459-4ae8-81ee-2ca4ec6a5917'} style={styles.image} />
+      <Text style={styles.subheading}>Speed up your recall of information with Charlie X's own Flashcards!</Text>
       <TouchableOpacity style={styles.button} onPress={handleAsPerDatabase}>
        <Link to="/Learn/Flashcards">
-        <Text style={styles.buttonText}>Randomise</Text>
+        <Text style={styles.buttonText}>START</Text>
         </Link> 
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleRandomize}>
-        <Text style={styles.buttonText}>Randomize</Text>
       </TouchableOpacity>
     </View>
   );
@@ -38,6 +35,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    marginTop: 20,
   },
   image: {
     width: 200,

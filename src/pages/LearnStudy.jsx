@@ -20,7 +20,7 @@ function LearnStudy() {
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput, StyleSheet, ScrollView } from 'react-native';
 import FlashcardFrontPage from './FlashcardFrontPage.jsx';
-import { getDownloadURL, ref, list } from "firebase/storage";
+import { getDownloadURL, ref, list, getMetadata } from "firebase/storage";
 import { fbstorage } from "../commons/Firebase"
 import { BsBluetooth } from "react-icons/bs";
 
@@ -68,7 +68,7 @@ const FlashcardApp = ({imageDatas}) => {
   const [flashcards, setImageData]= useState([])
     
     useEffect(() => {
-      getXRays(fbstorage).then(setImageData.catch(console.error))
+      getXRays(fbstorage).then(setImageData).catch(console.error)
     }, [])
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -110,7 +110,8 @@ const FlashcardApp = ({imageDatas}) => {
 
   return (
     <View style={styles.container}>
-      {isEndReached ? (
+      {flashcards.length <= 0 ? (<></>):
+      (isEndReached ? (
         <View>
           <TouchableOpacity onPress={handleStartOver}>
             <Text style={styles.startOverButton}>Start Over</Text>
@@ -124,11 +125,11 @@ const FlashcardApp = ({imageDatas}) => {
            <TouchableOpacity onPress={handleFlip} activeOpacity={1.0}>
             {isFlipped ? (
               <View>
-                <Image source={{uri:flashcards[currentIndex].annotatedImage}} style={styles.image}/>
+                <Image source={{uri:flashcards[currentIndex].image}} style={styles.image}/>
                 <Text style={styles.answerText}>{flashcards[currentIndex].disease}</Text>
               </View>
             ) : (
-              <Image source={flashcards[currentIndex].image} style={styles.image} />
+              <Image source={flashcards[currentIndex].annotatedImage} style={styles.image} />
             )}
             </TouchableOpacity>
             
@@ -166,7 +167,7 @@ const FlashcardApp = ({imageDatas}) => {
             </View>
           )}
         </>
-      )}
+      ))}
     </View>
   );
 };
