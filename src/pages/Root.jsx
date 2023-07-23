@@ -89,9 +89,9 @@ function Root() {
               Decoding Diseases with Precision
             </h2>
           </div>
-          <div className="grow flex flex-col justify-center items-center w-full">
+          {/* <div className="grow flex flex-col justify-center items-center w-full">
             <ExploreBar />
-          </div>
+          </div> */}
         </div>
       </div>
 
