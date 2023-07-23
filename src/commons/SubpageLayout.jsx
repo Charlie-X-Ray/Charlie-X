@@ -3,7 +3,7 @@ import {BsArrowLeftShort} from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
-import { FaPen, FaRocketchat } from "react-icons/fa"
+import { FaPen, FaRegObjectGroup, FaRocketchat } from "react-icons/fa"
 import { RiFileUserLine, RiStethoscopeFill } from"react-icons/ri"
 import { TbInfoCircleFilled, TbReportSearch } from "react-icons/tb"
 
@@ -21,24 +21,24 @@ function DefaultSideBar() {
 
   const newSideBar = (
     <div className="shrink-0 grow-0 flex flex-col overflow-hidden flex-nowrap bg-[#BAE5E3] gap-3 items-start h-full">
-      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/">
+      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/" data-test="rootlink">
         <BsArrowLeftShort />
       </Link>
-      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/about">
+      {/* <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/about">
         <RiFileUserLine /> 
-      </Link>
-      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/browse">
+      </Link> */}
+      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/browse" data-test="browselink">
         <TbInfoCircleFilled /> 
       </Link>
-      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/learn">
+      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/learn" data-test="learnlink">
         <TbReportSearch />
       </Link>
-      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/insights">
+      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/insights" data-test="insightlink">
         <RiStethoscopeFill /> 
       </Link>
-      <div className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-gray-500">
-        <FaRocketchat />
-      </div>
+      <Link className="mx-1 text-clip whitespace-nowrap font-cutive text-2xl hover:text-blue-800" to="/connect" data-test="connectlink">
+        <FaRocketchat /> 
+      </Link>
     </div>
   );
 
@@ -130,9 +130,10 @@ const SearchBar = ( { state, setState }) => {
       <input
         className="max-w-lg w-3/4 bg-slate-600 pl-2 text-white"
         placeholder="Search"
+        data-test="searchbar"
         onChange={ e => {
             const filterString = e.target.value
-            const filterReg = new RegExp(filterString)
+            const filterReg = new RegExp(filterString, "ig")
             console.log(filterReg)
             setState(filterReg)
           }}

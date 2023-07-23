@@ -16,12 +16,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          wait-on: http://localhost:5173
+          start: npx vite --host
+          component: true
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
       - run: npm ci # stands for npm clean-install for automated deployments
-      - run: npm test # same as npm run test
       - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

@@ -1,47 +1,78 @@
 import SubpageLayout from "../commons/SubpageLayout";
+import { Outlet } from "react-router-dom";
 
 function LearnStudy() {
+  const [flashcardsData, setFlashcardsData] = useState([]);
+  useEffect(() => {
+    getXRays(fbstorage).then(setFlashcardsData).catch(console.error);
+  }, []);
+
   return (
     <SubpageLayout heading="Learn & Study">
-      <FlashcardApp/>
+      <Outlet>
+        
+      </Outlet>
 
     </SubpageLayout>
   )
 }
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput, StyleSheet, ScrollView } from 'react-native';
-import { getDownloadURL, ref, list } from "firebase/storage";
+import FlashcardFrontPage from './FlashcardFrontPage.jsx';
+import { getDownloadURL, ref, list, getMetadata } from "firebase/storage";
 import { fbstorage } from "../commons/Firebase"
 import { BsBluetooth } from "react-icons/bs";
 
-const FlashcardApp = () => {
+// Returns an array of X Rays' metadata
+const getXRays = async ( fbstorage ) => {
+  console.log("getting XRays")
+  
+  let xRays = []
+
+  const dirRef = ref(fbstorage, 'learn')
+  const ogRef = ref(fbstorage, 'original')
+  // Read api here https://firebase.google.com/docs/reference/js/storage.md#list
+  const xRaysRaw = await list(dirRef, { maxResults:50, }).then( xs => xs.items ).then(xs => xs.filter( x => !x.name.includes("chestxray")))
+  xRays = await Promise.all(xRaysRaw.map(async (xRayRef, i) => {
+    // Interface can be found https://firebase.google.com/docs/reference/js/storage.storagereference
+    const unannotatedImage = await getDownloadURL(xRayRef);
+    const annotatedImageRef = ref(ogRef, xRayRef.name);
+    const annotatedImage = await getDownloadURL(annotatedImageRef);
+    return {
+      disease:(await getMetadata(xRayRef)).customMetadata.condition,
+      // srcPromise: await getDownloadURL(xRayRef),
+      image: unannotatedImage,
+      annotatedImage: annotatedImage,
+      id: i,
+    }
+  }));
+
+  if (xRays.length < 21) {
+    xRays = [1,2,3,4,5,6,7].flatMap( _ => xRays).map( (x,i) => { return {...x, id:i}})
+    xRays = xRays.slice(0, 21)
+  }
+
+
+  return xRays;
+}
+
+const FlashcardApp = ({imageDatas}) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState('');
   const [isEndReached, setIsEndReached] = useState(false);
+  const [writeUp, setWriteUp] = useState('');
+  const [isWriteUpVisible, setIsWriteUpVisible] = useState(false);
 
-  const flashcards = [
-    {
-      image: ('https://firebasestorage.googleapis.com/v0/b/charlie-x-ray.appspot.com/o/xrays%2FFor%20Learn%20Study%20Flashcard%2FPneumonia.jpeg?alt=media&token=238c3862-e459-4ae8-81ee-2ca4ec6a5917&_gl=1*9vfxwj*_ga*MTQ1NTMyMTU1Mi4xNjgyNzgyMjMz*_ga_CW55HF8NVT*MTY4NTQ1NDQwNi42LjEuMTY4NTQ1NTAwNy4wLjAuMA..'),
-      annotatedImage: ('https://firebasestorage.googleapis.com/v0/b/charlie-x-ray.appspot.com/o/xrays%2FPneumonia%20%2B%20Lung%20Tumour.png?alt=media&token=ea9d033a-94d8-4950-aaa2-3bf334045041&_gl=1*171kfet*_ga*MTQ1NTMyMTU1Mi4xNjgyNzgyMjMz*_ga_CW55HF8NVT*MTY4NTQ1NDQwNi42LjEuMTY4NTQ1NjE1OC4wLjAuMA..'),
-      disease: 'Pneumonia'
-    },
-    {
-      image: ('https://firebasestorage.googleapis.com/v0/b/charlie-x-ray.appspot.com/o/xrays%2FFor%20Learn%20Study%20Flashcard%2Ftuberculosis.jpeg?alt=media&token=a5aec33e-d30d-4170-b21b-cb87cd85b5ef&_gl=1*17ox2o6*_ga*MTQ1NTMyMTU1Mi4xNjgyNzgyMjMz*_ga_CW55HF8NVT*MTY4NTQ1NDQwNi42LjEuMTY4NTQ1NTMwMi4wLjAuMA..'),
-      annotatedImage:('https://firebasestorage.googleapis.com/v0/b/charlie-x-ray.appspot.com/o/xrays%2FTuberculosis.png?alt=media&token=6e19dc04-d899-4b4e-b234-e19b3a74faec'),
-      disease: 'Tuberculosis'
-    },
-    {
-      image:('https://firebasestorage.googleapis.com/v0/b/charlie-x-ray.appspot.com/o/xrays%2FFor%20Learn%20Study%20Flashcard%2Fspontaneous%20pneumothorax.jpeg?alt=media&token=0f47d6ea-3de5-4acd-a50b-0a60fc5b9467'),
-      annotatedImage: ('https://firebasestorage.googleapis.com/v0/b/charlie-x-ray.appspot.com/o/xrays%2Fpneumothorax.jpeg?alt=media&token=33ea5ab1-7afd-460b-ae83-11aedb3bcad6'),
-      disease: 'Pneumothorax'
-    }
-    // Add more flashcards as needed
-  ];
-
+  const [flashcards, setImageData]= useState([])
+    
+    useEffect(() => {
+      getXRays(fbstorage).then(setImageData).catch(console.error)
+    }, [])
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
+    setIsWriteUpVisible(!isWriteUpVisible);
   };
 
   const handleNext = () => {
@@ -51,6 +82,7 @@ const FlashcardApp = () => {
       setCurrentIndex((prevIndex) => prevIndex + 1);
       setIsFlipped(false);
       setUserAnswer('');
+      setWriteUp('');
     }
   };
 
@@ -59,6 +91,7 @@ const FlashcardApp = () => {
     setIsFlipped(false);
     setIsEndReached(false);
     setUserAnswer('');
+    setWriteUp('');
   };
 
   const handleReturnToMenu = () => {
@@ -68,11 +101,17 @@ const FlashcardApp = () => {
 
   const handleSubmit = () => {
     setIsFlipped(true);
+    setIsWriteUpVisible(true);
+  };
+
+  const handleWriteUpChange = (text) => {
+    setWriteUp(text);
   };
 
   return (
     <View style={styles.container}>
-      {isEndReached ? (
+      {flashcards.length <= 0 ? (<></>):
+      (isEndReached ? (
         <View>
           <TouchableOpacity onPress={handleStartOver}>
             <Text style={styles.startOverButton}>Start Over</Text>
@@ -83,14 +122,14 @@ const FlashcardApp = () => {
         </View>
       ) : (
         <>  
-           <TouchableOpacity onPress={handleFlip}>
+           <TouchableOpacity onPress={handleFlip} activeOpacity={1.0}>
             {isFlipped ? (
               <View>
-                <Image source={{uri:flashcards[currentIndex].annotatedImage}} style={styles.image}/>
+                <Image source={{uri:flashcards[currentIndex].image}} style={styles.image}/>
                 <Text style={styles.answerText}>{flashcards[currentIndex].disease}</Text>
               </View>
             ) : (
-              <Image source={flashcards[currentIndex].image} style={styles.image} />
+              <Image source={flashcards[currentIndex].annotatedImage} style={styles.image} />
             )}
             </TouchableOpacity>
             
@@ -120,8 +159,15 @@ const FlashcardApp = () => {
               </TouchableOpacity>
             </View>
           )}
+          {isFlipped && (
+            <View style={styles.writeUpContainer}>
+              <View style={styles.WriteUpInputContainer}>
+                <Text style={styles.writeUpText}>{flashcards[currentIndex].writeUp}</Text>
+              </View>
+            </View>
+          )}
         </>
-      )}
+      ))}
     </View>
   );
 };
@@ -132,11 +178,47 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  cardContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   image: {
     width: 400,
     height: 400,
     marginBottom: 20,
     marginTop: 20
+  },
+  writeUpContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    justifyContent: 'flex-end',
+  },
+  writeUpInputContainer: {
+    flex: 1,
+    marginRight: 10,
+  },
+  writeUpInput: {
+    flex: 1,
+    height: 80,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    paddingHorizontal: 1,
+    marginRight: 10,
+  },
+  writeUpText: {
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: 'justify',
+    maxWidth: 600,
+    marginBottom: 20,
   },
   answerText: {
     fontSize: 24,
@@ -144,7 +226,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10,
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
+    textAlign: 'center',
   },
   inputContainer: {
     alignItems: 'center'
@@ -233,3 +316,4 @@ const styles = StyleSheet.create({
 });
 
 export default LearnStudy;
+export {FlashcardApp}
