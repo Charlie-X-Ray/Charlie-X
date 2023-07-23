@@ -5,6 +5,7 @@ export default defineConfig({
   projectId: "eogrz3",
   viewportHeight:768,
   viewportWidth:1366,
+  trashAssetsBeforeRuns:false,
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here

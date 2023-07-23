@@ -36,7 +36,7 @@ const GalleryHero = ({ image, src, desc, id, ...props }) => {
 
       <Modal isOpen={isOpen} onClose={onClose} size='2xl'>
         <ModalOverlay/>
-        <ModalContent>
+        <ModalContent data-test="xraymodal">
           <ModalHeader bg="#BAE5E3">{desc}</ModalHeader>
           {image}
         </ModalContent>
@@ -110,12 +110,9 @@ const BrowseDefault = ({ images }) => {
 
 const Browse = () => {
   const [ imageDatas, setImageData ] = useState([])
-  const [ imageCount, setImageCount ] = useState(0)
-
-  let imgs = []
 
   useEffect( () => {
-    getXRays(fbstorage).then(setImageData).catch(console.erro)
+    getXRays(fbstorage).then(setImageData).catch(console.error)
   }, [])
 
   return (

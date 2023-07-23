@@ -18,8 +18,8 @@ describe('<Browse />', () => {
 
   // })
   // it.only('has a usable search bar for filtering', () => {
-    const searchStr = "cardio"
-    const negativeSearchStr = "ILD"
+    const searchStr = "ILD"
+    const negativeSearchStr = "aort"
     cy.get('[data-test="xrayhero"]', {timeout: timeout})
       .should('have.length.at.least', 10)
 
@@ -33,11 +33,14 @@ describe('<Browse />', () => {
 
     cy.get('[data-test="xrayhero"]', {timeout: timeout})
       .as('xrays')
-      .should('not.have', negativeSearchStr)
+      .should('not.contain', negativeSearchStr)
   // })
   // it.only('has modal x rays', () => {
     cy.get('[data-test="xrayhero"]')
       .first()
       .click()
+    
+    cy.get('[data-test="xraymodal"]')
+      .should('be.visible')
   })
 })

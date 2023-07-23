@@ -55,6 +55,16 @@ async function postHeart(file) {
   return imageObjectURL
 }
 
+function BaseXray({children = <></>}) {
+  return (
+  <div className="flex flex-col h-full">
+
+  </div>)
+}
+
+function InputXray() {
+
+}
 
 function Insights() {
 
@@ -88,7 +98,7 @@ function Insights() {
           onChange={e => setXRayInput(e.target.files[0])}
         />
         <button className="px-2 py-0.5 mt-2 bg-green-400 hover:bg-green-700 rounded-lg" onClick={() => handleXRayInput(xRayInput)}>Get Insights!</button>
-        <div className="flex flex-row w-full justify-center space-x-4">
+        <div className="flex flex-row w-full justify-center space-x-4 bg-gray-300 h-[500px] max-h-full">
           {
             xRayInput
               ? (
