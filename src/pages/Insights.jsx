@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { Input } from "@chakra-ui/input";
+import { Button } from "@chakra-ui/button";
 import SubpageLayout from "../commons/SubpageLayout";
+import { useBoolean } from "@chakra-ui/hooks";
 
 const VISON_HOSTNAME = import.meta.env.VITE_VISION_HOSTNAME; // ex: http://localhost:8000/
 
@@ -55,59 +58,137 @@ async function postHeart(file) {
   return imageObjectURL
 }
 
+function BaseXray({children = <></>}) {
+  return (
+  <div className="flex flex-col h-full w-full bg-gray-300 rounded-2xl border-8 border-blue-400 justify-center align-middle items-center pb-2">
+    {children}
+  </div>)
+}
 
 function Insights() {
 
   const [prediction, setPrediction] = useState(0.0);
   const [heart, setHeart] = useState("");
-  const [xRayInput, setXRayInput] = useState()
+  const [isFetchingError, setFetchingError] = useBoolean();
+  const [xRayInput, setXRayInput] = useState();
+  const [isFetchingXRay, setFetchingXRay] = useBoolean();
   useEffect(test_api, []);
 
+  const defaultXrayInput = (
+    <>
+      <h4 className="text-xl font-semibold mb-1">
+        {xRayInput ? "Orignal X-Ray" : "Upload your X-Ray here!"}
+      </h4>
+      {
+        xRayInput
+          ? (
+            <div data-test="ogxray" className="border-2 mt-1 mb-2 border-black shadow-lg">
+              <img src={URL.createObjectURL(xRayInput)} className="max-h-96" />
+            </div>
+          )
+          : <></>
+      }
+      <Button as="label" background="blue.400" isDisabled={isFetchingXRay} data-test="xrayinputlabel">
+        {xRayInput ? "Change Image" : "Upload Image"}
+        <input
+          className="hidden w-full max-w-sm text-sm text-gray-900
+          cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none
+          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          id="file_input"
+          data-test="xrayinput"
+          type="file"
+          accept="image/*"
+          onChange={e => {
+            setFetchingError.off()
+            setHeart("")
+            setXRayInput(e.target.files[0])
+          }}
+        />
+      </Button>
+    </>
+  )
+
+  const cardiomegalyXrayOutput = (
+    <>
+      {heart ? (
+        <>
+          <h4 className="font-semibold text-xl">
+            <p>
+              <span className="text-yellow-600">Heart Segment</span> is in yellow
+            </p>
+            <p>
+              Cardiomegaly Predicted Confidence&nbsp;
+              {
+                prediction > 0.50
+                  ? <span className={`text-red-600`}>{(prediction * 100).toFixed(2)}%</span>
+                  : <span >{(prediction * 100).toFixed(2)}%</span>
+              }
+            </p>
+          </h4>
+          <div className="border-2 border-red-600 shadow-lg my-2" data-test="mlxray">
+            <img src={heart} className="max-h-96"/>
+          </div></>)
+          : (
+        <>
+          <h4 className="font-semibold text-xl">
+              {xRayInput
+                ? "Click on Get Insights to see results!"
+                : "Upload an X-Ray to get started"}
+          </h4>
+        </>
+      )}
+    </>
+  )
+
+  const cardiomegalyXrayError = (
+    <>
+      <h4 className="text-2xl font-bold text-red-700">
+        Something went wrong.
+      </h4>
+    </>
+  )
+
   const handleXRayInput = (selectedFile) => {
+    setFetchingXRay.on()
     console.log("Recieved!")
     console.log(selectedFile)
 
-    postHeart(selectedFile)
+    const heartPromise = postHeart(selectedFile)
       .then(src => setHeart(src));
     
-    postDiagnose(selectedFile)
+    const diagnosisPromise = postDiagnose(selectedFile)
       .then(conditions => setPrediction(parseFloat(conditions.Cardiomegaly)))
+    
+    Promise.all([heartPromise, diagnosisPromise]).catch(setFetchingError.on).finally(setFetchingXRay.off)
   }
 
   return (
     <SubpageLayout heading="Insights">
-      <div className="flex flex-col w-full items-center text-center m-3">
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload XRay!</label>
-        <input
-          className="block w-full max-w-sm text-sm text-gray-900 border border-gray-300
-          rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none
-          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-          id="file_input"
-          type="file"
-          onChange={e => setXRayInput(e.target.files[0])}
-        />
-        <button className="px-2 py-0.5 mt-2 bg-green-400 hover:bg-green-700 rounded-lg" onClick={() => handleXRayInput(xRayInput)}>Get Insights!</button>
-        <div className="flex flex-row w-full justify-center space-x-4">
+      <div className="flex flex-col items-center text-center m-3">
+        <p className="font-bold max-w-7xl">
+          Charlie-X makes use of a classification model to detect Cardiomegaly, and a segmentation model to identify the heart in an X-Ray.
+        </p>
+        <div className="flex flex-col md:flex-row mt-1 w-full justify-center space-x-4 h-[550px] max-h-full">
+          <BaseXray>
+            {defaultXrayInput}
+          </BaseXray>
+          <div className="flex flex-col items-center align-middle justify-center">
+            <Button
+              background="green.400"
+              isLoading={isFetchingXRay}
+              data-test="xraysubmit"
+              onClick={() => handleXRayInput(xRayInput)}
+            >
+              Get Insights!
+            </Button>
+          </div>
+          <BaseXray>
           {
-            xRayInput
-              ? (
-                <div>
-                  <h4>Original XRay</h4>
-                  <img src={URL.createObjectURL(xRayInput)} className="max-h-96" />
-                </div>
-              )
-              : <></>
+            isFetchingError 
+              ? cardiomegalyXrayError
+              : cardiomegalyXrayOutput
           }
-          {
-            heart
-              ? (
-                <div>
-                  <h4><span className="text-yellow-600">Heart Segment</span> Chance of Cardiomegaly: <span className={`text-red-${prediction > 0.50 ? '600' : '0'}`}>{(prediction * 100).toFixed(2)}%</span></h4>
-                  <img src={heart} className="max-h-96" />
-                </div>
-              )
-              : <></>
-          }
+          </BaseXray>
         </div>
       </div>
     </SubpageLayout>

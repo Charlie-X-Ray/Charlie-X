@@ -40,7 +40,11 @@ function NavBar() {
       {
         buttons.map(({ msg, icon = <></>, linkto }, i) =>
           <Link className="grow flex" to={linkto} key={i}>
-            <button className={`bg-[#BAE5E3] grow flex flex-row justify-center items-center text-center rounded-b-xl text-2xl lg:text-xl lg:gap-2 py-1 hover:bg-[#88a8a7]`} key={i}>
+            <button
+              className={`bg-[#BAE5E3] grow flex flex-row justify-center items-center text-center rounded-b-xl text-2xl lg:text-xl lg:gap-2 py-1 hover:bg-[#88a8a7]`}
+              key={i}
+              data-test="rootbutton"
+            >
               {icon}
               <h2 className="text-[0px] lg:visible lg:w-auto lg:h-auto lg:text-base">
                 {msg}
@@ -85,9 +89,9 @@ function Root() {
               Decoding Diseases with Precision
             </h2>
           </div>
-          <div className="grow flex flex-col justify-center items-center w-full">
+          {/* <div className="grow flex flex-col justify-center items-center w-full">
             <ExploreBar />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -101,7 +105,7 @@ function Root() {
             <h1 className="text-3xl lg:text-6xl font-semibold mb-4 mt-6">
               Revolutionise how You Learn Radiology
             </h1>
-            <h2 className="text-md lg:text-xl font-normal" data-testid="root-subtitle">
+            <h2 className="text-md lg:text-xl font-normal" data-test="root-subtitle">
               <b className="text-orange-500">Never</b> spend hours pouring over videos or webistes with conflicting information again!
             </h2>
           </div>
