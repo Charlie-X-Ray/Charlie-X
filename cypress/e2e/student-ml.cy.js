@@ -4,15 +4,15 @@ describe('Student visits site to try ml', () => {
     cy.get('[data-test="xraysubmit"]')
       .click()
     
-    cy.get('[data-test="loadingicon"]')
-      .as('loadingicon')
-      .should('be.visible')
+    cy.contains('Get Insights!')
+      .as('buttonphrase')
+      .should('not.be.visible')
     
     cy.get('[data-test="mlxray"]', {timeout:15000})
       .should('be.visible')
     
-    cy.get('@loadingicon')
-      .should('not.be.visible')
+    cy.get('@buttonphrase')
+      .should('be.have')
   }
 
   it.only('Allows studnets to upload and receive ml images', () => {
