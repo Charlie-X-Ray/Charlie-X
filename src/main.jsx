@@ -9,6 +9,8 @@ import LearnStudy from "./pages/LearnStudy.jsx";
 import Connect from "./pages/Connect.jsx";
 
 import { ChakraProvider } from "@chakra-ui/react";
+import { FlashcardApp } from "./pages/LearnStudy.jsx";
+import FlashcardFrontPage from "./pages/FlashcardFrontPage.jsx";
 
 import "./index.css";
 
@@ -34,6 +36,16 @@ const router = createBrowserRouter([
   {
     path: "/Learn",
     element: <LearnStudy />,
+    children: [
+      {
+        path:"Flashcards",
+        element: <FlashcardApp/>
+      },
+      {
+        path:"",
+        element: <FlashcardFrontPage/>
+      }
+    ]
   },
   {
     path: "/connect",
