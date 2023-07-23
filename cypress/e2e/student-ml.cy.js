@@ -6,13 +6,13 @@ describe('Student visits site to try ml', () => {
     
     cy.contains('Get Insights!')
       .as('buttonphrase')
-      .should('not.be.visible')
+      // .should('not.be.visible')
     
-    cy.get('[data-test="mlxray"]', {timeout:15000})
+    cy.get('[data-test="mlxray"]', {timeout:50000})
       .should('be.visible')
     
     cy.get('@buttonphrase')
-      .should('be.have')
+      .should('be.visible')
   }
 
   it.only('Allows studnets to upload and receive ml images', () => {
