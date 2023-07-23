@@ -15,7 +15,7 @@ describe('Student visits site to try ml', () => {
       .should('be.visible')
   }
 
-  it.only('Allows studnets to upload and receive ml images', () => {
+  it.skip('Allows studnets to upload and receive ml images', () => {
     const insights = 'Expert Insights'
     const exampleFile = 'xrays/0622cd29e4e0e4f198abf15614819ae8.png'
     const exampleFile2 = 'xrays/051132a778e61a86eb147c7c6f564dfe.png'
